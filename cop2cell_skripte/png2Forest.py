@@ -1,5 +1,5 @@
 # GLEJ KOMENTARJE V MAIN, ZA UPORABO
-# VERZIJA: 0.0.1
+# VERZIJA: 0.0.2
 
 import numpy as np
 import argparse
@@ -31,7 +31,7 @@ def generate_forest_asc(vegetation_path: str, water_path: str, output_path: str,
             water_val = water_array[i, j]
 
             # nastavi vrednost
-            if water_val < 0:
+            if water_val < 200:
                 forest_grid[i, j] = 102  # nastavi vodo
             elif veg_val < 50:
                 forest_grid[i, j] = 2  # nastavi gozd
@@ -55,8 +55,8 @@ def generate_forest_asc(vegetation_path: str, water_path: str, output_path: str,
 def main():
 
     # PARSANJE ARGUMENTOV V FUNKCIJO
-    # ZAZENI TAKO: python cop2cell.py {IME_SLIKE_NVID} {IME_SLIKE_VODA} {XLL_KOORDINATE} {YLL_KOORDINATE} {CELLSIZE} --output Forest.asc
-    # NPR: python cop2cell.py vhodTestNDIV.png vhodTestNDIV.png 457900 5716800 100 --output Forest.asc
+    # ZAZENI TAKO: python png2Forest.py {IME_SLIKE_NVID} {IME_SLIKE_VODA} {XLL_KOORDINATE} {YLL_KOORDINATE} {CELLSIZE} --output Forest.asc
+    # NPR: python png2Forest.py vhodTestNDIV.png vhodTestNDIV.png 457900 5716800 100 --output Forest.asc
     parser = argparse.ArgumentParser(description="Generiraj .asc datoteko iz NDVI in vode.")
     parser.add_argument("vegetation", help="Pot do NDVI slike")
     parser.add_argument("water", help="Pot do vode slike")
@@ -69,7 +69,7 @@ def main():
 
     # XLLCORNER, YLLCORNER, CELLSIZE ZAENKRAT NIMA NIC VEZE - NPR. 457900 5716800 100
     generate_forest_asc(args.vegetation, args.water, args.output, args.xllcorner, args.yllcorner, args.cellsize)
-    print(f"{args.output} je generiran. Verzija 0.0.1")
+    print(f"{args.output} je generiran. Verzija 0.0.2")
 
 if __name__ == "__main__":
     main()
