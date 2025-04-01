@@ -393,9 +393,6 @@ minx, miny, maxx, maxy = polygon.bounds
 latitude = (miny + maxy) / 2
 longitude = (minx + maxx) / 2
 
-print(latitude)
-print(longitude)
-
 fetch_weather_data(latitude, longitude, args.zacetekDatum, args.konecDatum, args.scenarij)
 
 print("Weather.csv je generiran. Verzija 0.0.1")
