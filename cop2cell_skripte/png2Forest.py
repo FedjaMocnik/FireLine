@@ -33,7 +33,7 @@ def generate_forest_asc(vegetation_path: str, water_path: str, output_path: str,
             # nastavi vrednost
             if water_val < 200:
                 forest_grid[i, j] = 102  # nastavi vodo
-            elif veg_val < 50:
+            elif veg_val < 62:
                 forest_grid[i, j] = 2  # nastavi gozd
             elif veg_val < 100:
                 forest_grid[i, j] = 32  # nastavi travo
@@ -67,7 +67,7 @@ def main():
 
     args = parser.parse_args()
 
-    # XLLCORNER, YLLCORNER, CELLSIZE ZAENKRAT NIMA NIC VEZE - NPR. 457900 5716800 100
+    # XLLCORNER, YLLCORNER 457900 5716800, CELLSIZE NUJNO 100 (glede na to kako trenutno delamo)
     generate_forest_asc(args.vegetation, args.water, args.output, args.xllcorner, args.yllcorner, args.cellsize)
     print(f"{args.output} je generiran. Verzija 0.0.2")
 
