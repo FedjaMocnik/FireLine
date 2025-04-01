@@ -18,8 +18,11 @@ DATUM_KONCNI=${8}
 IME_SCENARIJ=${9}
 
 # zazeni ukaze po vrsti
+echo "Generiram..."
+echo "..."
 python3 png2Forest.py "$SLIKA_NDIV" "$SLIKA_VODA" "$XLLCORNER" "$YLLCORNER" "$CELLSIZE" --output Forest.asc
 python3 api2elevation.py "$IME_GEOJSON"
 python3 ele2slope.py
 python3 api2Weather.py "$IME_GEOJSON" "$DATUM_ZACETNI" "$DATUM_KONCNI" "$IME_SCENARIJ"
-echo "Konec generiranja, lep pozdrav."
+echo "..."
+echo "konec generiranja, lep pozdrav."
