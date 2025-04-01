@@ -3,6 +3,9 @@
 # python3 api2Weather.py {IME.GEOJSON} {DATUM_ZACETKA} {DATUM_KONCA} {IME_SCENARIJA}
 # NPR: python api2Weather.py slika.geojson 2024-06-14 2024-06-16 s1
 
+# requirements ce kej manjka:
+# pip install openmeteo-requests requests-cache retry-requests numpy pandas rasterio shapely geojson
+
 import math
 import numpy as np
 import openmeteo_requests
@@ -11,12 +14,11 @@ import pandas as pd
 import argparse
 from retry_requests import retry
 import json
-import argparse
 from shapely.geometry import shape
 
 def fetch_weather_data(latitude, longitude, start_date, end_date, scenario_value, output_path="Weather.csv"):
     
-    # Setup the Open-Meteo API client with cache and retry on error
+    # nastavi Open-Meteo API client z cacheom in ponovi ob napaki
     cache_session = requests_cache.CachedSession('.cache', expire_after = -1)
     retry_session = retry(cache_session, retries = 5, backoff_factor = 0.2)
     openmeteo = openmeteo_requests.Client(session = retry_session)
