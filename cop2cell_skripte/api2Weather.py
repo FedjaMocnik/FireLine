@@ -1,7 +1,7 @@
 # VERZIJA: 0.0.1
 # ZAZENI TAKO:
 # python3 api2Weather.py {IME.GEOJSON} {DATUM_ZACETKA} {DATUM_KONCA} {IME_SCENARIJA}
-# NPR: python api2Weather.py slika.geojson 2024-06-14 2024-06-16 s1
+# NPR: python3 api2Weather.py slika.geojson 2024-06-14 2024-06-16 s1
 
 # requirements ce kej manjka:
 # pip install openmeteo-requests requests-cache retry-requests numpy pandas rasterio shapely geojson
@@ -74,9 +74,9 @@ def fetch_weather_data(latitude, longitude, start_date, end_date, scenario_value
     daily_ffmc = []
     prev_ffmc = 88 # povprecni suhi pogoji
     daily_dmc = []
-    prev_dmc = 90 # suhi pogoji
+    prev_dmc = 70 # suhi pogoji
     daily_dc = []
-    prev_dc = 300 # suhi pogoji
+    prev_dc = 250 # suhi pogoji
     daily_isi = []
     daily_bui = []
     daily_fwi = []
