@@ -140,8 +140,7 @@ def fetch_weather_data(latitude, longitude, start_date, end_date, scenario_value
 
 
 # FUNKCIJE ZA IZRACUN FFMC, DMC, DC, ISI, BUI, FWI
-# formule iz https://ostr-backend-prod.azurewebsites.net/server/api/core/bitstreams/64b76432-d29e-411d-9f67-3466c6e2d2da/content 
-
+# formule iz https://ostr-backend-prod.azurewebsites.net/server/api/core/bitstreams/64b76432-d29e-411d-9f67-3466c6e2d2da/content in https://wikifire.wsl.ch/tiki-index259b.html?page=Fire+weather+index 
 # Fine Fuel moisture Code (FFMC)
 def calculate_ffmc(T, RH, Wind, Rain, prev_FFMC):
     """
@@ -375,24 +374,29 @@ def calculate_FWI(BUI, ISI):
 
 ###################################
 
-parser = argparse.ArgumentParser(description="Generiraj Weather.asc datoteko s pomočjo API in .geojson datoteke")
-parser.add_argument("geojson", help="Pot do geojson datoteke.")
-parser.add_argument("zacetekDatum", help="Datum zacetka pozara. Format: YYYY-MM-DD.")
-parser.add_argument("konecDatum", help="Datum konca pozara.Format: YYYY-MM-DD.")
-parser.add_argument("scenarij", help="Scenarij.")
+def main():
+    parser = argparse.ArgumentParser(description="Generiraj Weather.asc datoteko s pomočjo API in .geojson datoteke")
+    parser.add_argument("geojson", help="Pot do geojson datoteke.")
+    parser.add_argument("zacetekDatum", help="Datum zacetka pozara. Format: YYYY-MM-DD.")
+    parser.add_argument("konecDatum", help="Datum konca pozara. Format: YYYY-MM-DD.")
+    parser.add_argument("scenarij", help="Scenarij.")
 
-args = parser.parse_args()
+    args = parser.parse_args()
 
-# PREBERI PODATKE IZ GEOJSON
-with open(args.geojson, "r") as f:
-    geojson_data = json.load(f)
+    # PREBERI PODATKE IZ GEOJSON
+    with open(args.geojson, "r") as f:
+        geojson_data = json.load(f)
 
-polygon = shape(geojson_data["geometry"])
-minx, miny, maxx, maxy = polygon.bounds 
+    polygon = shape(geojson_data["geometry"])
+    minx, miny, maxx, maxy = polygon.bounds 
 
-latitude = (miny + maxy) / 2
-longitude = (minx + maxx) / 2
+    latitude = (miny + maxy) / 2
+    longitude = (minx + maxx) / 2
 
-fetch_weather_data(latitude, longitude, args.zacetekDatum, args.konecDatum, args.scenarij)
+    fetch_weather_data(latitude, longitude, args.zacetekDatum, args.konecDatum, args.scenarij)
 
-print("Weather.csv je generiran. Verzija 0.0.1")
+    print("Weather.csv je generiran. Verzija 0.0.1")
+
+if __name__ == "__main__":
+    main()  # Only runs if executed directly
+    
