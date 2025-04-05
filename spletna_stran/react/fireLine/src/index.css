@@ -10,6 +10,11 @@ body {
   min-height: 100vh; /* Make sure the background covers the full viewport height */
 }
 
+.leaflet-container {
+  height: 100vh;
+  width: 100wh;
+}
+
 h1 {
   color: #54bab5;
 }

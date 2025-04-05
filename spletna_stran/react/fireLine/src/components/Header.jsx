@@ -18,10 +18,14 @@ const LogoLink = styled(Link)`
   display: flex;
   align-items: center;
   text-decoration: none;
-  transition: transform 0.3s ease-in-out; /* This makes the scaling smooth */
+  transition: transform 0.2s ease-in-out; /* This makes the scaling smooth */
   
   &:hover {
-    transform: scale(1.03);
+    transform: scale(1.025);
+
+    span {
+    color: #f39c12;
+  }
   }
 `;
 
@@ -29,8 +33,6 @@ const LogoImage = styled.img`
   height: 70px;
   width: auto;
   margin-right: 10px;
-  transition: transform 0.3s ease-in-out;
-
 
 `;
 
@@ -47,7 +49,7 @@ const Navbar = styled.nav`
     color: #63d4ce;
     text-decoration: none;
     font-weight: 600;
-    transition: transform 0.3s ease-in-out; 
+    transition: transform 0.2s ease-in-out; 
     display: inline-block; /* Ensure the 'a' tag is treated as a block to allow scaling */
   }
 
@@ -68,8 +70,7 @@ function Header() {
                 <LogoText>FireLine</LogoText>
             </LogoLink>
             <Navbar>
-              <Link to="/">Domov</Link>
-              <Link to="/map">Zemljevid</Link>
+              <Link to="/">Domov/zemljevid</Link>
               <Link to="/about">O projektu</Link>
             </Navbar>
     </HeaderWrapper>

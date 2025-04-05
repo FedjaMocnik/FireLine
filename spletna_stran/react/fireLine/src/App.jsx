@@ -4,7 +4,6 @@ import Header from './components/Header'
 import Footer from './components/Footer';
 import Home from './pages/Home';
 import About from './pages/About';
-import Map from './pages/Map';
 import styled from "styled-components";
 
 const AppWrapper = styled.div`
@@ -25,7 +24,6 @@ function App() {
           <MainContent>
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/map" element={<Map />} />
               <Route path="/about" element={<About />} />
             </Routes>
           </MainContent>

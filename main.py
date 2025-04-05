@@ -34,6 +34,7 @@ yllcorner = 1
 cellsize = 100
 # naredi Forest.asc iz slik iz satelita in shrani v cop2cell_skripte/results datoteko Forest.asc
 generate_forest_asc("coord2img/results/forest.png", "coord2img/results/water.png", "cop2cell_skripte/results/Forest.asc", xllcorner, yllcorner, cellsize)
+print("Forest.asc je generiran. Verzija 0.0.2")
 
 # parametri za Weather.csv
 wlat = (miny + maxy) / 2
@@ -62,3 +63,4 @@ slope, aspect = compute_slope_aspect(elevation, cellsize)
 save_asc('cop2cell_skripte/results/slope.asc', header, slope)
 save_asc('cop2cell_skripte/results/saz.asc', header, aspect)
 print("slope.asc in saz.asc sta generirana. Verzija 0.0.1")
+print("Weather.csv je generiran. Verzija 0.0.1")

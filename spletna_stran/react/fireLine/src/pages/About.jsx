@@ -1,13 +1,14 @@
 import React from 'react';
 import styled from "styled-components";
 
+
 const AboutWrapper = styled.div`
   background-color: rgba(0, 0, 0, 0.5);  /* Black with 50% opacity */
   color: white;  /* Text color */
-  padding: 20px;
+  padding: 15px;
   border-radius: 8px;  /* Rounded corners */
-  max-width: 800px;  /* Set a max-width if needed */
-  margin: 20px auto;  /* Center the box */
+  width: 900px;  
+  margin: 30px auto;  /* Center the box */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);  /* Add some subtle shadow for a better effect */
 
 `;
