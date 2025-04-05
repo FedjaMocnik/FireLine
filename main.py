@@ -64,3 +64,5 @@ save_asc('cop2cell_skripte/results/slope.asc', header, slope)
 save_asc('cop2cell_skripte/results/saz.asc', header, aspect)
 print("slope.asc in saz.asc sta generirana. Verzija 0.0.1")
 print("Weather.csv je generiran. Verzija 0.0.1")
+
+print("Weather.csv je generiran. Verzija 0.0.1")
