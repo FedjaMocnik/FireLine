@@ -1,0 +1,24 @@
+/* Global style for the whole site */
+body {
+  font-family: 'Lucida Console', monospace; 
+  margin: 0;
+  padding: 0;
+  background-image: url('/ozadje2.png');
+  background-size: cover; /* Cover the entire page */
+  background-position: center center; /* Center the image */
+  background-repeat: no-repeat; /* Prevent the image from repeating */
+  min-height: 100vh; /* Make sure the background covers the full viewport height */
+}
+
+h1 {
+  color: #54bab5;
+}
+
+h2 {
+  color: #54bab5;
+}
+
+p {
+  color: white;
+}
+
