@@ -3,7 +3,7 @@ body {
   font-family: 'Lucida Console', monospace; 
   margin: 0;
   padding: 0;
-  background-image: url('/ozadje2.png');
+  background-image: url('/ozadje2_blurred.png');
   background-size: cover; /* Cover the entire page */
   background-position: center center; /* Center the image */
   background-repeat: no-repeat; /* Prevent the image from repeating */
@@ -13,6 +13,10 @@ body {
 .leaflet-container {
   height: 100vh;
   width: 100wh;
+}
+
+.leaflet-draw-draw-rectangle {
+  z-index: 1000 !important;
 }
 
 h1 {

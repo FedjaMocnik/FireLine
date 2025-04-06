@@ -5,13 +5,12 @@ import ImageCard from '../components/ImageCard';
 import GenerateButton from '../components/GenerateButton';
 
 const HomeWrapper = styled.div`
-  background-color: rgba(0, 0, 0, 0.5);  /* Black with 50% opacity */
+  background-color: rgba(13, 37, 32, 0.8);  /*  80% opacity */
   color: white;  /* Text color */
   padding: 15px;
   border-radius: 8px;  /* Rounded corners */
   width: 900px;  /* Set a max-width if needed */
   margin: 30px auto;  /* Center the box */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);  /* Add some subtle shadow for a better effect *
 `;
 
 
