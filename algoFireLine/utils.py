@@ -1,12 +1,10 @@
-import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.spatial import KDTree
-from sklearn.metrics.pairwise import cosine_similarity
 from typing import Tuple
 
 #nardi graf map.pdf
-def plotCSV(result, t, edge_points: np.ndarray, pomtoc:np.ndarray, midmap):
+def plotCSV(result, edge_points: np.ndarray, pomtoc:np.ndarray, midmap, save_path:str):
     rows, cols = result.shape
     points = []
     for y in range(rows):
@@ -35,7 +33,7 @@ def plotCSV(result, t, edge_points: np.ndarray, pomtoc:np.ndarray, midmap):
     plt.xlim(-0.5, cols - 0.5)  # Adjust axis limits to align with grid
     plt.ylim(-0.5, rows - 0.5)
     plt.gca().invert_yaxis()  # Invert y-axis to match matrix/CSV row order
-    plt.scatter(edge_points[:, 0], edge_points[:, 1], color='dimgray', s=10)
+    plt.scatter(edge_points[:, 0], edge_points[:, 1], color='dimgray', s=5)
 
 
     lables = np.array(["Start", "Najdle", "Prececisce T", "NajblizjaT"])
@@ -55,7 +53,7 @@ def plotCSV(result, t, edge_points: np.ndarray, pomtoc:np.ndarray, midmap):
             fontsize=9, color='black')
 
 
-    plt.savefig(f'res/map.pdf')
+    plt.savefig(f"{save_path}map.pdf")
 
 #generira tocke na zunaji strani pozara
 def gen_tocke(file)->np.ndarray:
@@ -109,6 +107,7 @@ def closest_point_indx(T:np.ndarray, tocke:np.ndarray)-> Tuple[int,np.ndarray]:
             min_raz = raz
             indx = i
             nova_t=tocke[i]
+    nova_t=np.array(nova_t)
     return indx,nova_t
 
 
@@ -119,12 +118,15 @@ def order_points_along_curve(points: np.ndarray) -> np.ndarray:
     tree = KDTree(points)
 
     while len(visited) < len(points):
+
         distances, indices = tree.query(ordered[-1], k=len(points))
+
         for idx in indices:
             if idx not in visited:
                 ordered.append(points[idx])
                 visited.add(idx)
                 break
+
     ordered = np.array(ordered)
 
     for i in range(len(ordered)):
@@ -141,9 +143,10 @@ def check_barrier(arr: np.ndarray, map:np.ndarray)->np.ndarray:
     padded = np.pad(map, pad_width=1, mode='constant', constant_values=0)
     for point in arr:
         i,j = point
-        neighborhood = padded[i-1:i+2, j-1:j+2]
+        neighborhood = padded[i:i+3, j:j+3]
         zero_count = np.sum(neighborhood == 0)
-        if zero_count < 5:
+
+        if zero_count <= 4:
             newPoints.append(point)
 
     return np.array(newPoints)
