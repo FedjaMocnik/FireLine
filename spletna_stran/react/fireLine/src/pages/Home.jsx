@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import React from 'react';
 import Map from '../components/Map'; 
+import ImageCard from '../components/ImageCard'; 
+import GenerateButton from '../components/GenerateButton';
 
 const HomeWrapper = styled.div`
   background-color: rgba(0, 0, 0, 0.5);  /* Black with 50% opacity */
@@ -20,6 +22,9 @@ function Home() {
       <h2>Zemljevid</h2>
       <p>Izberi območje</p>
       <Map/>
+        <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
+      <GenerateButton/>
+      </div>
     </HomeWrapper>
   );
 }
