@@ -30,9 +30,9 @@ def plotCSV(result, edge_points: np.ndarray, pomtoc:np.ndarray, midmap, save_pat
     plt.xlabel("X Coordinate")
     plt.ylabel("Y Coordinate")
     plt.grid(True, linestyle='--', alpha=0.5)
-    plt.xlim(-0.5, cols - 0.5)  # Adjust axis limits to align with grid
+    plt.xlim(-0.5, cols - 0.5)
     plt.ylim(-0.5, rows - 0.5)
-    plt.gca().invert_yaxis()  # Invert y-axis to match matrix/CSV row order
+    plt.gca().invert_yaxis()
     plt.scatter(edge_points[:, 0], edge_points[:, 1], color='dimgray', s=5)
 
 

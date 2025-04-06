@@ -1,22 +1,27 @@
-# VERZIJA: 0.1.2 - nardi se nove NDIV in voda png-je
+# VERZIJA: 0.1.3 - zamik za ena na png-jih, path nastavljen iz argsov
 # REQUIREMENTS: numpy, pandas, matplotlib, scipy, PIL
-# RUN: python3 fireline.py
+# RUN: python3 fireline.py {path do HourlyStats.csv} {path do .../Grids/Grids1/} {path do mape kjer shran rezultate} {path do pngs}
 
 import pandas as pd
 import numpy as np
 from utils import gen_tocke, plotCSV, further_most_point
 from utils import prececisce_z_daljico,closest_point_indx,order_points_along_curve
 from PIL import Image, ImageDraw
+import sys
 #from utils import check_barrier #odkometirej ko bo delal
 
-PATH_TO_HOURLY_STATS = "resultsTolmin/results/Stats/HourlyStats.csv"
-PATH_TO_GRIDS = "resultsTolmin/results/Grids/Grids1/"
-SAVE_PATH = "res/"
-PATH_TO_PNGS = "testni_primer/"
+# PATH_TO_HOURLY_STATS = "resultsTolmin/results/Stats/HourlyStats.csv"
+# PATH_TO_GRIDS = "resultsTolmin/results/Grids/Grids1/"
+# SAVE_PATH = "res/"
+# PATH_TO_PNGS = "testni_primer/"
+
+PATH_TO_HOURLY_STATS = sys.argv[1]
+PATH_TO_GRIDS = sys.argv[2]
+SAVE_PATH = sys.argv[3]
+PATH_TO_PNGS = sys.argv[4]
+
 
 def main():
-
-    print("Zacenjam algoritem...")
 
     df = pd.read_csv(PATH_TO_HOURLY_STATS, sep=',')
     burned = df['Burned'].tolist()
@@ -51,8 +56,9 @@ def main():
     # XOR med zadnjo in izracunanim_min mapami
     map_mid = pd.read_csv(f'{PATH_TO_GRIDS}ForestGrid{start_idx}.csv')
     map_fin = pd.read_csv(f'{PATH_TO_GRIDS}ForestGrid{len(burned)-1}.csv')
+    #map_fin.info()
     result = map_mid ^ map_fin
-    result.to_csv(f'{SAVE_PATH}xor_result.csv', index=False, header=False)
+    #result.to_csv(f'{SAVE_PATH}xor_result.csv', index=False, header=False)
 
     # generiri tocke po zunaji starni mape
     tocke = gen_tocke(result)
@@ -83,21 +89,24 @@ def main():
 
     # pregrado nared sam tm kjer je na obeh straneh ogenj
     map_fin = map_fin.to_numpy()
-
     # check_barrier je zaenkrat useless
     #pregrada = check_barrier(pregrada,map_fin)
 
     df = pd.DataFrame(pregrada)
-    df.to_csv(f"{SAVE_PATH}pregrada.csv",header=False, index=False)
+    #df.to_csv(f"{SAVE_PATH}pregrada.csv",header=False, index=False)
     pomembne_tocke = np.vstack([zac,najdle,T, najblizT])
     plotCSV(result, pregrada, pomembne_tocke, map_mid, SAVE_PATH)
-
 
     ndiv = Image.open(f"{PATH_TO_PNGS}tolminNDIV.png")
     voda = Image.open(f"{PATH_TO_PNGS}tolminVoda.png")
 
     draw_ndiv = ImageDraw.Draw(ndiv)
     draw_voda = ImageDraw.Draw(voda)
+
+    #pomoje se nekje zamaknejo kordinate vse za +1 - tukaj popravek
+    #pregrada+=1
+    #csv ma 99 namest 100 dolzino maybe je to problem :/
+    pregrada[:,1::2]+=1
     prej = pregrada[0]
 
     for tocka in pregrada[1:]:
@@ -107,9 +116,6 @@ def main():
 
     ndiv.save(f"{SAVE_PATH}pregradaNDIV.png")
     voda.save(f"{SAVE_PATH}pregradaVoda.png")
-
-    print("Konec izvajanja algoritma.")
-
 
 if __name__ == "__main__":
     main()
