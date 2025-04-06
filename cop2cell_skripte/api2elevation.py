@@ -8,6 +8,10 @@
 import json
 import requests
 import rasterio
+from rasterio.merge import merge
+import os
+import math
+from uuid import uuid4
 import argparse
 import numpy as np
 from scipy.ndimage import zoom
@@ -22,29 +26,94 @@ def read_forest_metadata(forest_file):
             metadata[key] = float(value) if '.' in value else int(value)
     return metadata
 
+def replace_negatives(mosaic):
+    band = mosaic[0]
+    flat = band.flatten()
+
+    # najdi prvo nenegativno vrednost
+    valid_mask = flat >= 0
+    first_valid = flat[valid_mask][0]
+
+    # zamenjaj prve negativne
+    first_valid_idx = np.argmax(valid_mask)
+    flat[:first_valid_idx] = first_valid
+
+    # zamenjaj vse negativne
+    last_valid_indices = np.where(valid_mask, np.arange(len(flat)), 0)
+    np.maximum.accumulate(last_valid_indices, out=last_valid_indices)
+
+    filled = flat[last_valid_indices]
+
+    band[:, :] = filled.reshape(band.shape)
+    return mosaic
+
 def download_geotiff(bbox_left, bbox_right, bbox_bottom, bbox_top, res_m, output_tiff):
+
     API_KEY = "ak_xGeXLOv2_FDFSWBOEuvmhMZWe"
-
-    # prejmi GeoTIFF podatke iz API-ja
     url = "https://api.gpxz.io/v1/elevation/hires-raster"
-    params = {
-        "bbox_left": bbox_left,
-        "bbox_right": bbox_right,
-        "bbox_bottom": bbox_bottom,
-        "bbox_top": bbox_top,
-        "res_m": res_m / 10,
-        "api-key": API_KEY
-    }
 
-    response = requests.get(url, params=params, stream=True)
+    # aproksimiraj velikost ene stopinje
+    deg_per_meter = 1 / 111_320
 
-    if response.status_code == 200:
-        with open(output_tiff, 'wb') as f:
-            for chunk in response.iter_content(chunk_size=8192):
-                f.write(chunk)
-        print(f"GeoTIFF je nalozen: {output_tiff}")
-    else:
-        raise Exception(f"API napaka: {response.status_code}, {response.text}")
+    max_area_km2 = 10
+    max_side_deg = math.sqrt(max_area_km2 * 1_000_000) * deg_per_meter
+
+    lon = bbox_left
+    temp_files = []
+
+    while lon < bbox_right:
+        next_lon = min(lon + max_side_deg, bbox_right)
+        lat = bbox_bottom
+
+        while lat < bbox_top:
+            next_lat = min(lat + max_side_deg, bbox_top)
+
+            params = {
+                "bbox_left": lon,
+                "bbox_right": next_lon,
+                "bbox_bottom": lat,
+                "bbox_top": next_lat,
+                "res_m": res_m / 10,
+                "api-key": API_KEY
+            }
+
+            temp_file = f"tile_{uuid4().hex}.tiff"
+            print(f"Prenašanje: {temp_file}")
+            response = requests.get(url, params=params, stream=True)
+
+            if response.status_code == 200:
+                with open(temp_file, 'wb') as f:
+                    for chunk in response.iter_content(chunk_size=8192):
+                        f.write(chunk)
+                temp_files.append(temp_file)
+            else:
+                raise Exception(f"Napaka API-ja za območje {lon}, {lat}, {next_lon}, {next_lat}: {response.status_code}, {response.text}")
+
+            lat = next_lat
+        lon = next_lon
+
+    # Združi vse ploščice v en GeoTIFF
+    print("Združevanje .tiff datotek...")
+    src_files_to_mosaic = [rasterio.open(fp) for fp in temp_files]
+    mosaic, out_trans = merge(src_files_to_mosaic)
+
+    out_meta = src_files_to_mosaic[0].meta.copy()
+    out_meta.update({
+        "height": mosaic.shape[1],
+        "width": mosaic.shape[2],
+        "transform": out_trans
+    })
+
+    mosaic = replace_negatives(mosaic)
+
+    with rasterio.open(output_tiff, "w", **out_meta) as dest:
+        dest.write(mosaic)
+
+    print(f"GeoTIFF končan: {output_tiff}")
+
+    # Počisti začasne datoteke
+    for fp in temp_files:
+        os.remove(fp)
 
 def extract_elevation_from_tiff(tiff_file, nrows, ncols):
     # prebere podatke GeoTIFF in da v array
@@ -54,13 +123,14 @@ def extract_elevation_from_tiff(tiff_file, nrows, ncols):
 
     original_shape = elevation_data.shape
 
-    # Calculate the zoom factors for resampling
+    # izracunaj zoom faktor
     zoom_factor = (nrows / original_shape[0], ncols / original_shape[1])
-    # order=1 -> bilinear interpolation
+    # bilinear interpolation - karkol to pomen
     resampled_elevation_data = zoom(elevation_data, zoom_factor, order=1)
     resampled_elevation_data_INT = np.round(resampled_elevation_data).astype(int)
     resampled_elevation_data_INT = resampled_elevation_data_INT * 3
 
+    os.remove("cop2cell_skripte/results/Elevation.tif")
     return resampled_elevation_data_INT
 
 def write_elevation_asc(metadata, elevation_data, output_file):
