@@ -60,6 +60,15 @@ def parse_arguments():
     )
     return parser.parse_args()
 
+def get_default_args():
+    return {
+        "box_size": 2000,
+        "resolution": 10,
+        "start_year": 2024,
+        "end_year": 2024,
+        "data_folder": Path("../data"),
+        "nvdi_treshold": 0.7,
+    }
 
 # Evalscript for the SH request
 # reference: https://documentation.dataspace.copernicus.eu/notebook-samples/sentinelhub/deforestation_monitoring_with_xarray.html
@@ -127,9 +136,6 @@ function evaluatePixel(samples) {
 }
 """
 def get_data():
-        
-    # Parse the arguments
-    args = parse_arguments()
 
     # Set the Sentinel Hub profile
     config = SHub_profile("sh-76683b6e-ba7f-46ab-a78b-ab294ec15c4e", "ev5hxyrkAnHdQe89GjzZsTayBcJvfRZA")
@@ -138,6 +144,7 @@ def get_data():
     if __name__ == "__main__":
         geojson_path = "./input_area.geojson"
     else:
+        args = argparse.Namespace(**get_default_args())
         geojson_path = "./coord2img/utils/input_area.geojson"
     bbox_list, bbox_info_list = load_slovenia_bbox(geojson_path,args.box_size, save_img=True)
 
@@ -215,4 +222,6 @@ def get_data():
 
 
 if __name__ == "__main__":
+    args = parse_arguments()
+
     get_data()

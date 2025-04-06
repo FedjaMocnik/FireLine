@@ -13,9 +13,15 @@ const GenerateButton = () => {
     setLoading(true);
     setImageGenerated(false); // Reset previous image if any
 
+    const coordinates = [50.087, 14.421];
+
     try {
       const res = await fetch("/generate", {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ coordinates }),
       });
 
       if (res.ok) {
@@ -45,7 +51,7 @@ const GenerateButton = () => {
 
       {imageGenerated && (
         <ImageCard
-          imageSrc={`/public/bboxed_rgb.png?${Date.now()}`} // prevent caching
+          imageSrc={`/public/forest.png?${Date.now()}`} // prevent caching
           title="Generated Image"
           description="This image was created by the Python backend."
         />
