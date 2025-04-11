@@ -1,7 +1,6 @@
 import styled from 'styled-components';
-import React from 'react';
+import React, { useState } from 'react';
 import Map from '../components/Map'; 
-import ImageCard from '../components/ImageCard'; 
 import GenerateButton from '../components/GenerateButton';
 
 const HomeWrapper = styled.div`
@@ -10,19 +9,20 @@ const HomeWrapper = styled.div`
   padding: 20px;
   border-radius: 8px;
   width: 1000px;  
-  margin: 30px auto;  /* Center the box */
+  margin: 30px auto;
 `;
 
-
 function Home() {
+  const [rectangleCoords, setRectangleCoords] = useState(null);
+
   return (
     <HomeWrapper>
       <h1>FireLine: preprečevanje goznih požarov</h1>
       <h2>Zemljevid</h2>
       <p>Izberi območje</p>
-      <Map/>
-        <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
-      <GenerateButton/>
+      <Map onRectangleChange={setRectangleCoords} />
+      <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
+        <GenerateButton rectangleCoords={rectangleCoords} />
       </div>
     </HomeWrapper>
   );

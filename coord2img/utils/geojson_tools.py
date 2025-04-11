@@ -58,6 +58,12 @@ def utm33n_to_latlon(easting, northing):
     lon, lat = transformer.transform(easting, northing)
     return lat, lon  # return as (lat, lon) for consistency
 
+def latlon_to_utm33n(lat, lon):
+    """Convert WGS84 latitude/longitude to UTM Zone 33N coordinates"""
+    transformer = Transformer.from_crs(4326, 32633, always_xy=True)
+    easting, northing = transformer.transform(lon, lat)
+    return easting, northing  # return as (easting, northing)
+
 def edges_to_geojson_points(edges, input_crs=32633):
     """
     Convert edge coordinates to GeoJSON Point features, with optional coordinate conversion.

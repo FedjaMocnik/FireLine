@@ -27,8 +27,7 @@ def generate():
     data = request.get_json()
     coords = data.get("coordinates")
     print("Received coordinates:", coords)
-    c = generate(None)
-    print("returne: ",coords)
+    c = generate(coords)
     #generate_image()  # Your function that creates img.png
     return jsonify({"success": True})
 

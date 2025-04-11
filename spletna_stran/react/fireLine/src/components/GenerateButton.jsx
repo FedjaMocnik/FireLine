@@ -1,21 +1,29 @@
 import React, { useState } from "react";
 import ImageCard from "./ImageCard";
-
 import Box from "@mui/material/Box";
 import SendIcon from "@mui/icons-material/Send";
 import { LoadingButton } from "@mui/lab";
 
-const GenerateButton = () => {
+const GenerateButton = ({ rectangleCoords }) => {
   const [loading, setLoading] = useState(false);
   const [imageGenerated, setImageGenerated] = useState(false);
 
   const handleGenerate = async () => {
-    setLoading(true);
-    setImageGenerated(false); // Reset previous image if any
+    if (!rectangleCoords) {
+      console.error("No area selected");
+      return;
+    }
 
-    const coordinates = [50.087, 14.421];
+    setLoading(true);
+    setImageGenerated(false);
+
+    const coordinates = [
+      [rectangleCoords.northWest.lat, rectangleCoords.northWest.lng],
+      [rectangleCoords.southEast.lat, rectangleCoords.southEast.lng]
+    ];
 
     try {
+      console.log("Sending coordinates:", coordinates);
       const res = await fetch("/generate", {
         method: "POST",
         headers: {
@@ -45,13 +53,26 @@ const GenerateButton = () => {
         loadingPosition="end"
         variant="contained"
         size="medium"
+        disabled={!rectangleCoords}
+        sx={{
+          backgroundColor: "#256b68", // Green color
+          "&:hover": {
+            backgroundColor: "#388E3C", // Darker green on hover
+          },
+          "&:disabled": {
+            backgroundColor: "#E0E0E0", // Light gray when disabled
+          },
+          "&.MuiLoadingButton-loading": {
+            backgroundColor: "#2196F3", // Blue color when loading
+          }
+        }}
       >
-        Generate Image
+        {loading ? "GENERATING..." : "Generate Image"}
       </LoadingButton>
 
       {imageGenerated && (
         <ImageCard
-          imageSrc={`/public/forest.png?${Date.now()}`} // prevent caching
+          imageSrc={`/public/forest.png?${Date.now()}`}
           title="Generated Image"
           description="This image was created by the Python backend."
         />

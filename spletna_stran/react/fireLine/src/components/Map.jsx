@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import 'leaflet/dist/leaflet.css';
-import { MapContainer, TileLayer, Marker, Popup, useMap, FeatureGroup } from 'react-leaflet';
+import { MapContainer, TileLayer, useMap, FeatureGroup } from 'react-leaflet';
 import styled from 'styled-components';
 import L from 'leaflet';
 import 'leaflet-draw/dist/leaflet.draw.css';
@@ -30,10 +30,76 @@ const ResultsContainer = styled.div`
   color: #FBFAE4;
 `;
 
-function Map() {
+function Map({ onRectangleChange }) {
   const [rectangleCoords, setRectangleCoords] = useState(null);
   const [area, setArea] = useState(null);
   const featureGroupRef = useRef(new L.FeatureGroup());
+
+  const handleDrawCreate = useCallback((e) => {
+    featureGroupRef.current.clearLayers();
+    if (e.layerType === 'rectangle') {
+      const layer = e.layer;
+      
+      layer.setStyle({
+        color: '#2ecc71',
+        weight: 2,
+        fillOpacity: 0.3,
+        fillColor: '#2ecc71'
+      });
+      
+      featureGroupRef.current.addLayer(layer);
+      
+      const bounds = layer.getBounds();
+      const area = L.GeometryUtil.geodesicArea(bounds);
+      setArea(area / 1000000);
+      
+      const coords = {
+        northWest: bounds.getNorthWest(),
+        southEast: bounds.getSouthEast(),
+        center: bounds.getCenter()
+      };
+  
+      setRectangleCoords(coords);
+      
+      if (onRectangleChange) {
+        onRectangleChange(coords);
+      }
+  
+      layer.bindPopup(`
+        <div style="font-weight: bold; color: #2c3e50;">
+          Click the edit tool to modify
+        </div>
+      `);
+    }
+  }, [onRectangleChange]);
+
+  const handleDrawEdited = useCallback((e) => {
+    const layers = e.layers;
+    layers.eachLayer((layer) => {
+      const bounds = layer.getBounds();
+      const area = L.GeometryUtil.geodesicArea(bounds);
+      
+      setArea(area / 1000000);
+      
+      const coords = {
+        northWest: bounds.getNorthWest(),
+        southEast: bounds.getSouthEast(),
+        center: bounds.getCenter()
+      };
+      
+      setRectangleCoords(coords);
+      
+      if (onRectangleChange) {
+        onRectangleChange(coords);
+      }
+
+      layer.bindPopup(`
+        <div style="font-weight: bold; color: #2c3e50;">
+          Click the edit tool to modify
+        </div>
+      `);
+    });
+  }, [onRectangleChange]);
 
   function DrawingTools() {
     const map = useMap();
@@ -77,63 +143,6 @@ function Map() {
 
       map.addControl(drawControl);
 
-      function handleDrawCreate(e) {
-        featureGroupRef.current.clearLayers();
-        if (e.layerType === 'rectangle') {
-          const layer = e.layer;
-          
-          layer.setStyle({
-            color: '#2ecc71',
-            weight: 2,
-            fillOpacity: 0.3,
-            fillColor: '#2ecc71'
-          });
-          
-          featureGroupRef.current.addLayer(layer);
-          
-          const bounds = layer.getBounds();
-          const area = L.GeometryUtil.geodesicArea(bounds);
-          setArea(area / 1000000);
-          
-          setRectangleCoords({
-            northWest: bounds.getNorthWest(),
-            southEast: bounds.getSouthEast(),
-            center: bounds.getCenter()
-          });
-
-          layer.bindPopup(`
-            <div style="font-weight: bold; color: #2c3e50;">
-              Click the edit tool to modify
-            </div>
-          `);
-        }
-      }
-
-      // Handler for editing existing rectangles
-      function handleDrawEdited(e) {
-        const layers = e.layers;
-        layers.eachLayer((layer) => {
-          // After editing, get the new bounds
-          const bounds = layer.getBounds();
-          const area = L.GeometryUtil.geodesicArea(bounds);
-
-          // Update the coordinates and area after editing
-          setArea(area / 1000000); // Convert area to square km
-          setRectangleCoords({
-            northWest: bounds.getNorthWest(),
-            southEast: bounds.getSouthEast(),
-            center: bounds.getCenter(),
-          });
-
-          // Optionally, update the popup with new info
-          layer.bindPopup(`
-            <div style="font-weight: bold; color: #2c3e50;">
-              Click the edit tool to modify
-            </div>
-          `);
-        });
-      }
-
       map.on(L.Draw.Event.CREATED, handleDrawCreate);
       map.on(L.Draw.Event.EDITED, handleDrawEdited);
 
@@ -143,7 +152,7 @@ function Map() {
         map.removeControl(drawControl);
         map.removeLayer(featureGroupRef.current);
       };
-    }, [map]);
+    }, [map, handleDrawCreate, handleDrawEdited]);
 
     return null;
   }
@@ -183,7 +192,7 @@ function Map() {
           </div>
         </ResultsContainer>
       )}
-      </div>
+    </div>
   );
 }
 

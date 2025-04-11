@@ -4,10 +4,10 @@ warnings.filterwarnings("ignore", message="Signature .* does not match any known
 import time
 from coord2img.utils.geojson_tools import *
 from coord2img.obdelava.data_generation import get_data
-# from cop2cell_skripte.png2Forest import *
-# from cop2cell_skripte.api2Weather import *
-# from cop2cell_skripte.api2elevation import *
-# from cop2cell_skripte.ele2slope import *
+from cop2cell_skripte.png2Forest import *
+from cop2cell_skripte.api2Weather import *
+from cop2cell_skripte.api2elevation import *
+from cop2cell_skripte.ele2slope import *
 
 def generate(coordinates):
     # Creates .geojson file from coordinates
@@ -22,13 +22,18 @@ def generate(coordinates):
         latitude1,longitude1 = coordinates[0]
         latitude2,longitude2 = coordinates[1]
 
+    latitude1,longitude1 = latlon_to_utm33n(latitude1,longitude1)
+    latitude2,longitude2 = latlon_to_utm33n(latitude2,longitude2)
+    print(latitude1,longitude1,latitude2,longitude2)
+
     create_geojson_rectangle((latitude1,longitude1),(latitude2, longitude2))
+    
 
     # Gets data form setelites and saves it to coord2img/results
     get_data()
 
 
-    """
+    #"""
     # PREBERI PODATKE IZ GEOJSON
     with open("coord2img/results/new_area.geojson", "r") as f:
         geojson_data = json.load(f)
