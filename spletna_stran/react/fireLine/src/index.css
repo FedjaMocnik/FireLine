@@ -4,9 +4,12 @@ body {
   margin: 0;
   padding: 0;
   background-image: url('/ozadje2_blurred.png');
+  /*background-color: #f39c12;*/
   background-size: cover; /* Cover the entire page */
   background-position: center center; /* Center the image */
   background-repeat: no-repeat; /* Prevent the image from repeating */
+  background-attachment: fixed; /* Optional: makes the image stay fixed when scrolling */
+  overflow-x: hidden; /* Prevent horizontal scrolling */
   min-height: 100vh; /* Make sure the background covers the full viewport height */
 }
 
@@ -20,14 +23,18 @@ body {
 }
 
 h1 {
-  color: #54bab5;
+  color: #f39c12;
 }
 
 h2 {
-  color: #54bab5;
+  color: #cd7f01;
+}
+
+h3 {
+  color: #cd7f01;
 }
 
 p {
-  color: white;
+  color: #FBFAE4;
 }
 

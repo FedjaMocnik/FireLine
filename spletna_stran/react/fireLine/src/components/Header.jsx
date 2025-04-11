@@ -5,13 +5,13 @@ const HeaderWrapper = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px;
+  padding: 15px;
   background: #256b68;
   position: sticky;
   top: 0;
   z-index: 100;
-  padding-left: 20px;
-  padding-right: 40px; 
+  padding-left: 40px;
+  padding-right: 60px; 
 `;
 
 const LogoLink = styled(Link)`
@@ -37,7 +37,7 @@ const LogoImage = styled.img`
 `;
 
 const LogoText = styled.span`
-  color: #63d4ce;
+  color: #B0E7E6;
   font-size: 1.8rem;
   font-weight: bold;
 
@@ -46,7 +46,7 @@ const LogoText = styled.span`
 const Navbar = styled.nav`
   a {
     margin: 0 15px;
-    color: #63d4ce;
+    color: #B0E7E6;
     text-decoration: none;
     font-weight: 600;
     transition: transform 0.2s ease-in-out; 

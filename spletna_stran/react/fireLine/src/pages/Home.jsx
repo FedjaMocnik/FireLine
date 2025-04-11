@@ -5,11 +5,11 @@ import ImageCard from '../components/ImageCard';
 import GenerateButton from '../components/GenerateButton';
 
 const HomeWrapper = styled.div`
-  background-color: rgba(13, 37, 32, 0.8);  /*  80% opacity */
-  color: white;  /* Text color */
-  padding: 15px;
-  border-radius: 8px;  /* Rounded corners */
-  width: 900px;  /* Set a max-width if needed */
+  background-color: rgba(13, 37, 32, 1.0);  
+  color: white;  
+  padding: 20px;
+  border-radius: 8px;
+  width: 1000px;  
   margin: 30px auto;  /* Center the box */
 `;
 

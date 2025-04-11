@@ -4,10 +4,10 @@ warnings.filterwarnings("ignore", message="Signature .* does not match any known
 import time
 from coord2img.utils.geojson_tools import *
 from coord2img.obdelava.data_generation import get_data
-from cop2cell_skripte.png2Forest import *
-from cop2cell_skripte.api2Weather import *
-from cop2cell_skripte.api2elevation import *
-from cop2cell_skripte.ele2slope import *
+# from cop2cell_skripte.png2Forest import *
+# from cop2cell_skripte.api2Weather import *
+# from cop2cell_skripte.api2elevation import *
+# from cop2cell_skripte.ele2slope import *
 
 def generate(coordinates):
     # Creates .geojson file from coordinates
@@ -28,7 +28,7 @@ def generate(coordinates):
     get_data()
 
 
-    #"""
+    """
     # PREBERI PODATKE IZ GEOJSON
     with open("coord2img/results/new_area.geojson", "r") as f:
         geojson_data = json.load(f)
@@ -74,6 +74,7 @@ def generate(coordinates):
     print("Weather.csv je generiran. Verzija 0.0.1")
 
     #"""
+    
     #copies files to site directorie to be displayed on a page
     copy_file("forest.png", "./coord2img/results", "./spletna_stran/react/fireLine/public")
     return 0

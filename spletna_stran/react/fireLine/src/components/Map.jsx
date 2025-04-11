@@ -9,7 +9,7 @@ import 'leaflet-draw';
 const MapWrapper = styled.div`
   background-color: #256b68;
   padding: 10px;
-  border-radius: 8px;
+  border-radius: 5px;
   max-width: 800px;
   margin: 10px auto;
   height: 500px;
@@ -27,7 +27,7 @@ const ResultsContainer = styled.div`
   border-radius: 8px;
   max-width: 800px;
   margin: 15px auto;
-  color: white;
+  color: #FBFAE4;
 `;
 
 function Map() {
@@ -166,7 +166,7 @@ function Map() {
       </MapWrapper>
       {rectangleCoords && (
         <ResultsContainer>
-          <h3 style={{ color: 'white', marginBottom: '12px' }}>Koordinate izbranega območja</h3>
+          <h3 style={{ marginBottom: '12px' }}>Koordinate izbranega območja</h3>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px' }}>
             <div>
               <strong>Zgornji desni kot:</strong><br />
