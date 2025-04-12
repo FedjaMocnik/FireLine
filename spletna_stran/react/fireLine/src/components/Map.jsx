@@ -1,10 +1,19 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+/* to kar je komentirano je za rectangle, ce bi sluacjno se kej rabil */
+
+/*import React, { useState, useEffect, useRef, useCallback } from 'react';
 import 'leaflet/dist/leaflet.css';
 import { MapContainer, TileLayer, useMap, FeatureGroup } from 'react-leaflet';
 import styled from 'styled-components';
 import L from 'leaflet';
 import 'leaflet-draw/dist/leaflet.draw.css';
-import 'leaflet-draw';
+import 'leaflet-draw';*/
+
+import React, { useState } from 'react';
+import 'leaflet/dist/leaflet.css';
+import { MapContainer, TileLayer, useMapEvents, Marker, Popup } from 'react-leaflet';
+import styled from 'styled-components';
+import L from 'leaflet';
+
 
 const MapWrapper = styled.div`
   background-color: #256b68;
@@ -16,8 +25,8 @@ const MapWrapper = styled.div`
   width: 100%;
   overflow: visible;
 
-  .leaflet-draw-draw-rectangle {
-    z-index: 1000 !important;
+  /* .leaflet-draw-draw-rectangle {
+    z-index: 1000 !important; */
   }
 `;
 
@@ -30,8 +39,18 @@ const ResultsContainer = styled.div`
   color: #FBFAE4;
 `;
 
-function Map({ onRectangleChange }) {
-  const [rectangleCoords, setRectangleCoords] = useState(null);
+
+function ClickHandler({ onMapClick }) {
+  useMapEvents({
+    click(e) {
+      onMapClick(e.latlng);
+    }
+  });
+  return null;
+}
+
+//function Map({ onRectangleChange }) {
+  /*const [rectangleCoords, setRectangleCoords] = useState(null);
   const [area, setArea] = useState(null);
   const featureGroupRef = useRef(new L.FeatureGroup());
 
@@ -155,7 +174,10 @@ function Map({ onRectangleChange }) {
     }, [map, handleDrawCreate, handleDrawEdited]);
 
     return null;
-  }
+  }*/
+
+  function Map() {
+    const [clickedCoords, setClickedCoords] = useState(null);
 
   return (
     <div>
@@ -170,14 +192,26 @@ function Map({ onRectangleChange }) {
             attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-          <DrawingTools />
+          <ClickHandler onMapClick={setClickedCoords} />
+          {clickedCoords && (
+            <Marker position={clickedCoords}>
+              <Popup>
+                Lat: {clickedCoords.lat.toFixed(4)}, Lng: {clickedCoords.lng.toFixed(4)}
+              </Popup>
+            </Marker>
+          )}
+          {/*} <DrawingTools /> */}
         </MapContainer>
       </MapWrapper>
-      {rectangleCoords && (
+      {clickedCoords && ( //prej rectangle
         <ResultsContainer>
-          <h3 style={{ marginBottom: '12px' }}>Koordinate izbranega območja</h3>
+          <h3 style={{ marginBottom: '12px' }}>Koordinate izbrane točke</h3>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px' }}>
             <div>
+              <strong>Lat:</strong> {clickedCoords.lat.toFixed(4)} <br />
+              <strong>Lng:</strong> {clickedCoords.lng.toFixed(4)}
+            </div>
+            {/*<div>
               <strong>Zgornji desni kot:</strong><br />
               {rectangleCoords.northWest.lat.toFixed(4)}, {rectangleCoords.northWest.lng.toFixed(4)}
             </div>
@@ -188,7 +222,7 @@ function Map({ onRectangleChange }) {
             <div>
               <strong>Sredina:</strong><br />
               {rectangleCoords.center.lat.toFixed(4)}, {rectangleCoords.center.lng.toFixed(4)}
-            </div>
+            </div>*/}
           </div>
         </ResultsContainer>
       )}

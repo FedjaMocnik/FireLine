@@ -4,6 +4,7 @@ import Header from './components/Header'
 import Footer from './components/Footer';
 import Home from './pages/Home';
 import About from './pages/About';
+import Uporaba from './pages/Uporaba';
 import styled from "styled-components";
 
 const AppWrapper = styled.div`
@@ -24,6 +25,7 @@ function App() {
           <MainContent>
             <Routes>
               <Route path="/" element={<Home />} />
+              <Route path="/uporaba" element={<Uporaba />} />
               <Route path="/about" element={<About />} />
             </Routes>
           </MainContent>

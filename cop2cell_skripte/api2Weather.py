@@ -1,7 +1,7 @@
-# VERZIJA: 0.0.1
+# VERZIJA: 0.1.0
 # ZAZENI TAKO:
-# python3 api2Weather.py {IME.GEOJSON} {DATUM_ZACETKA} {DATUM_KONCA} {IME_SCENARIJA}
-# NPR: python3 api2Weather.py slika.geojson 2024-06-14 2024-06-16 s1
+# python3 api2Weather.py {IME.GEOJSON} {DATUM_ZACETKA}{IME_SCENARIJA}
+# NPR: python3 api2Weather.py slika.geojson 2024-06-14 s1
 
 # requirements ce kej manjka:
 # pip install openmeteo-requests requests-cache retry-requests numpy pandas rasterio shapely geojson
@@ -15,16 +15,37 @@ import argparse
 from retry_requests import retry
 import json
 from shapely.geometry import shape
+from datetime import datetime
+from datetime import timedelta
 
-def fetch_weather_data(latitude, longitude, start_date, end_date, scenario_value, output_path="Weather.csv"):
+def fetch_weather_data(latitude, longitude, start_date, scenario_value, output_path="Weather.csv"):
+    
+    # izracunamo end_date
+    # string --> datetime object
+    given_date = datetime.strptime(start_date,"%Y-%m-%d")
+    #izracunamo nov datum -> koncni datum (zacetni + 5 dni)
+    end_date = (given_date + timedelta(days=5)).date()
     
     # nastavi Open-Meteo API client z cacheom in ponovi ob napaki
     cache_session = requests_cache.CachedSession('.cache', expire_after = -1)
     retry_session = retry(cache_session, retries = 5, backoff_factor = 0.2)
     openmeteo = openmeteo_requests.Client(session = retry_session)
 
+    # ce je zacetni datum manj kot en mesec nazaj uporabimo forecast API ce ne historical API
+    danes = datetime.today().date()
+    mesec_nazaj = danes - timedelta(days=30)
+
+    if given_date.date() < mesec_nazaj:
+        # historical API
+        url = "https://archive-api.open-meteo.com/v1/archive"
+        print("Given date is more than one month ago.")
+        
+    else:
+        # forecast API
+        url = "https://api.open-meteo.com/v1/forecast"
+        print("Given date is within the last month.")
+
     # pomemben vrstni red parametrov !
-    url = "https://archive-api.open-meteo.com/v1/archive"
     params = {
         "latitude": latitude,
         "longitude": longitude,
@@ -378,7 +399,6 @@ def main():
     parser = argparse.ArgumentParser(description="Generiraj Weather.asc datoteko s pomočjo API in .geojson datoteke")
     parser.add_argument("geojson", help="Pot do geojson datoteke.")
     parser.add_argument("zacetekDatum", help="Datum zacetka pozara. Format: YYYY-MM-DD.")
-    parser.add_argument("konecDatum", help="Datum konca pozara. Format: YYYY-MM-DD.")
     parser.add_argument("scenarij", help="Scenarij.")
 
     args = parser.parse_args()
@@ -393,9 +413,9 @@ def main():
     latitude = (miny + maxy) / 2
     longitude = (minx + maxx) / 2
 
-    fetch_weather_data(latitude, longitude, args.zacetekDatum, args.konecDatum, args.scenarij)
+    fetch_weather_data(latitude, longitude, args.zacetekDatum, args.scenarij)
 
-    print("Weather.csv je generiran. Verzija 0.0.1")
+    print("Weather.csv je generiran. Verzija 0.1.0")
 
 if __name__ == "__main__":
     main()  # Only runs if executed directly

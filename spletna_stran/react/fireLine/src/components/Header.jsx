@@ -59,8 +59,6 @@ const Navbar = styled.nav`
   }
 `;
 
-
-
 function Header() {
     
     return(
@@ -70,7 +68,8 @@ function Header() {
                 <LogoText>FireLine</LogoText>
             </LogoLink>
             <Navbar>
-              <Link to="/">Domov/zemljevid</Link>
+              <Link to="/">Orodje</Link>
+              <Link to="/uporaba">Navodila za uporabo</Link>
               <Link to="/about">O projektu</Link>
             </Navbar>
     </HeaderWrapper>

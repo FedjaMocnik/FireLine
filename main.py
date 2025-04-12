@@ -33,7 +33,6 @@ def generate(coordinates):
     get_data()
 
 
-    #"""
     # PREBERI PODATKE IZ GEOJSON
     with open("coord2img/results/new_area.geojson", "r") as f:
         geojson_data = json.load(f)
@@ -53,10 +52,9 @@ def generate(coordinates):
     wlat = (miny + maxy) / 2
     wlong = (minx + maxx) / 2
     start_date = "2024-06-14"
-    end_date = "2024-06-16"
     scenario = "S1"
     # naredi Weather.csv in shrani v cop2cell_skripte/results datoteko Weather.csv
-    fetch_weather_data(wlat, wlong, start_date, end_date, scenario, "cop2cell_skripte/results/Weather.csv")
+    fetch_weather_data(wlat, wlong, start_date, scenario, "cop2cell_skripte/results/Weather.csv")
 
     # klic api2elevation.py - cakam se da mi un model poveca iz 10km^2 na vec
     forest_file = "cop2cell_skripte/results/Forest.asc"
@@ -67,7 +65,7 @@ def generate(coordinates):
     download_geotiff(minx, maxx, miny, maxy, res_m, output_tiff)
     elevation_data = extract_elevation_from_tiff(output_tiff, metadata["nrows"], metadata["ncols"])
     write_elevation_asc(metadata, elevation_data, output_asc)
-    print(f"{output_asc} je generiran. Verzija 0.0.1")
+    print(f"{output_asc} je generiran. Verzija 0.1.0")
 
     # klic ele2slope.py
     header, elevation = load_asc(output_asc)
@@ -76,9 +74,8 @@ def generate(coordinates):
     save_asc('cop2cell_skripte/results/slope.asc', header, slope)
     save_asc('cop2cell_skripte/results/saz.asc', header, aspect)
     print("slope.asc in saz.asc sta generirana. Verzija 0.0.1")
-    print("Weather.csv je generiran. Verzija 0.0.1")
+    print("Weather.csv je generiran. Verzija 0.1.0")
 
-    #"""
     
     #copies files to site directorie to be displayed on a page
     copy_file("forest.png", "./coord2img/results", "./spletna_stran/react/fireLine/public")
