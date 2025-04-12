@@ -9,6 +9,7 @@ from cop2cell_skripte.api2Weather import *
 from cop2cell_skripte.api2elevation import *
 from cop2cell_skripte.ele2slope import *
 from cop2cell_skripte.runC2F import *
+from cop2cell_skripte.coord2Ign import *
 
 def generate(coordinates):
     # Creates .geojson file from coordinates
@@ -44,7 +45,7 @@ def generate(coordinates):
     yllcorner = 1
     cellsize = 100
     # naredi Forest.asc iz slik iz satelita in shrani v cop2cell_skripte/results datoteko Forest.asc
-    generate_forest_asc("coord2img/results/forest.png", "coord2img/results/water.png", "cop2cell_skripte/results/Forest.asc", xllcorner, yllcorner, cellsize, "cop2cell_skripte/results/Ignitions.csv")
+    generate_forest_asc("coord2img/results/forest.png", "coord2img/results/water.png", "cop2cell_skripte/results/Forest.asc", xllcorner, yllcorner, cellsize)
     print("Forest.asc je generiran. Verzija 0.0.2")
 
     # parametri za Weather.csv
@@ -54,6 +55,10 @@ def generate(coordinates):
     scenario = "S1"
     # naredi Weather.csv in shrani v cop2cell_skripte/results datoteko Weather.csv
     fetch_weather_data(wlat, wlong, start_date, scenario, "cop2cell_skripte/results/Weather.csv")
+
+    # naredi Ignitions.csv datoteko
+    # TO-DO coord2Ign()
+    # VID DODAJ!!!
 
     # klic api2elevation.py - cakam se da mi un model poveca iz 10km^2 na vec
     forest_file = "cop2cell_skripte/results/Forest.asc"

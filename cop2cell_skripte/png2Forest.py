@@ -5,7 +5,7 @@ import numpy as np
 import argparse
 from PIL import Image
 
-def generate_forest_asc(vegetation_path: str, water_path: str, output_path: str, xllcorner: int, yllcorner: int, cellsize: int, output_ignitions : str):
+def generate_forest_asc(vegetation_path: str, water_path: str, output_path: str, xllcorner: int, yllcorner: int, cellsize: int):
     # nalozi sliki v greyscale
     veg_img = Image.open(vegetation_path).convert('L')
     water_img = Image.open(water_path).convert('L')
@@ -52,10 +52,11 @@ def generate_forest_asc(vegetation_path: str, water_path: str, output_path: str,
         for row in forest_grid:
             f.write(" ".join(map(str, row)) + "\n")
 
+"""
     with open(output_ignitions, 'w') as f2:
         f2.write("Year,Ncell\n")
         f2.write(f"1,{int((ncols * nrows) / 2)}\n")
-
+"""
 
 def main():
 
@@ -74,7 +75,7 @@ def main():
     args = parser.parse_args()
 
     # XLLCORNER, YLLCORNER 457900 5716800, CELLSIZE NUJNO 100 (glede na to kako trenutno delamo)
-    generate_forest_asc(args.vegetation, args.water, args.output, args.xllcorner, args.yllcorner, args.cellsize, args.output_ignitions)
+    generate_forest_asc(args.vegetation, args.water, args.output, args.xllcorner, args.yllcorner, args.cellsize)
     print(f"{args.output} je generiran. Verzija 0.0.2")
 
 if __name__ == "__main__":
