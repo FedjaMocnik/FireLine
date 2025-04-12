@@ -76,7 +76,7 @@ def generate(coordinates):
     print("Weather.csv je generiran. Verzija 0.1.0")
 
     # za"zeni Cell2Fire
-    run_cell2fire("../../FireLine/cop2cell_skripte/results", "./../FireLine/rezultati_cell2fire/")
+    run_cell2fire("../../FireLine/cop2cell_skripte/results", "../../FireLine/rezultati_cell2fire/")
 
     # copies files to site directory to be displayed on a page
     copy_file("forest.png", "./coord2img/results", "./spletna_stran/react/fireLine/public")

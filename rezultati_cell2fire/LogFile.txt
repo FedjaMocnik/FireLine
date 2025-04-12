@@ -1,0 +1,29 @@
+------ Command line values ------
+InFolder: ../../FireLine/cop2cell_skripte/results/ 
+OutFolder: ../../FireLine/rezultati_cell2fire/ 
+WeatherOpt: rows 
+HarvestPlan:  
+OutMessages: 1 
+Ignitions: 1 
+OutputGrids: 1 
+FinalGrid: 1 
+TotalYears: 1 
+TotalSims: 1 
+NWeatherFiles: 1 
+FirePeriodLength: 1.0 
+IgnitionRadius: 5 
+ROSThreshold: 0.1 
+HFIThreshold: 0.1 
+ROS-CV: 0.0 
+seed: 123 
+Forest DataFrame from instance ../../FireLine/cop2cell_skripte/results/Data.csv
+Number of cells: 20000
+
+Weather DataFrame from instance ../../FireLine/cop2cell_skripte/results/Weather.csv
+
+Selected ignition point for Year 1, sim 1: 11047
+----------------------------- Results -----------------------------
+Total Available Cells:    17949 - % of the Forest: 89.745%
+Total Burnt Cells:        1677 - % of the Forest: 8.385%
+Total Non-Burnable Cells: 374 - % of the Forest: 1.87%
+Total Harvested Cells: 0 - % of the Forest: 0%

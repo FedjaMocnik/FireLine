@@ -8,7 +8,7 @@ def run_cell2fire(
     output_folder,
     ignitions=True,
     sim_years=1,
-    nsims=5,
+    nsims=1,
     final_grid=True,
     weather="rows",
     nweathers=1,
@@ -18,17 +18,17 @@ def run_cell2fire(
     seed=123,
     stats=True,
     all_plots=True,
-    ignition_rad=1,
+    ignition_rad=5,
     grids=True,
     combine=True
 ):
 
     original_dir = os.getcwd()  # Save the current directory
-    cell2fire_path = os.path.join(original_dir, "../Cell2Fire/cell2fire")
+    cell2fire_path = os.path.join(original_dir, "../../Cell2Fire/cell2fire")
 
     # Base command
     command = [
-        "python", "main.py",
+        "python3", "main.py",
         "--input-instance-folder", input_folder,
         "--output-folder", output_folder,
         "--sim-years", str(sim_years),
@@ -60,8 +60,30 @@ def run_cell2fire(
 # Example call
 def main():
     run_cell2fire(
-        input_folder="../data/Sub40x40/",
-        output_folder="../results/Sub40x40",
+        input_folder="../../FireLine/cop2cell_skripte/results/",
+        output_folder="../../FireLine/rezultati_cell2fire/",
         sim_years=1,
-        nsims=5,
+        nsims=1,
     )
+    
+if __name__=="__main__":
+    main()
+    
+    
+# #!/bin/bash
+# zagon iz Cell2Fire/cell2fire
+# zagon: bash ../testiranje/tolmin/go.bash
+
+# mydir=../testiranje/tolmin
+
+# # pobrisemo prejsnji Data.csv
+# rm $mydir/podatki/Data.csv
+
+# python3 main.py --input-instance-folder $mydir/podatki/ --output-folder $mydir/results/ --ignitions --sim-years 1 --nsims 1 --finalGrid --weather rows --nweathers 1 --Fire-Period-Length 60.0 --Weather-Period-Length 60.0 --output-messages --ROS-CV 0.0 --seed 1134 --ignitions --stats --allPlots --IgnitionRad 5 --grids --combine --verbose
+# #python3 main.py --input-instance-folder $mydir/podatki/ --output-folder $mydir/results/ --ignitions --sim-years 1 --nsims 5 --finalGrid --weather rows --nweathers 1 --Fire-Period-Length 1.0 --output-messages --ROS-CV 0.0 --seed 123 --stats --allPlots --IgnitionRad 5 --grids --combine
+
+
+# # za gif iz Cell2Fire dir za ta primer
+# cd ..
+# python3 -m cell2fire.utils.gif testiranje/tolmin/results/Plots/Plots1 testiranje/tolmin/results/Plots/Plots1/tolmin_output.gif    
+
