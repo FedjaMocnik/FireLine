@@ -25,6 +25,7 @@ def run_cell2fire(
 
     original_dir = os.getcwd()  # Save the current directory
     cell2fire_path = os.path.join(original_dir, "../../Cell2Fire/cell2fire")
+    # IZBRI"SI "../" CE LAUFA"S V main.py
 
     # Base command
     command = [
@@ -50,12 +51,20 @@ def run_cell2fire(
     if grids: command.append("--grids")
     if combine: command.append("--combine")
 
+    # ODSTRANI data.csv
+    os.remove(input_folder + "Data.csv")
+    print("Data.csv je izbrisan (se mi zdi).")
+
     # Run the command from the cell2fire directory
     subprocess.run(command, cwd=cell2fire_path)
 
+    # naredi GIF
+    os.chdir("..")
+
+
     # Back to the original directory (not strictly needed unless you're doing more afterward)
     os.chdir(original_dir)
-
+    subprocess.run("python3 -m cell2fire.utils.gif ../FireLine/rezultati_cell2fire ../FireLine/rezultati_cell2fire/output.gif")
 
 # Example call
 def main():
@@ -65,25 +74,6 @@ def main():
         sim_years=1,
         nsims=1,
     )
-    
+
 if __name__=="__main__":
     main()
-    
-    
-# #!/bin/bash
-# zagon iz Cell2Fire/cell2fire
-# zagon: bash ../testiranje/tolmin/go.bash
-
-# mydir=../testiranje/tolmin
-
-# # pobrisemo prejsnji Data.csv
-# rm $mydir/podatki/Data.csv
-
-# python3 main.py --input-instance-folder $mydir/podatki/ --output-folder $mydir/results/ --ignitions --sim-years 1 --nsims 1 --finalGrid --weather rows --nweathers 1 --Fire-Period-Length 60.0 --Weather-Period-Length 60.0 --output-messages --ROS-CV 0.0 --seed 1134 --ignitions --stats --allPlots --IgnitionRad 5 --grids --combine --verbose
-# #python3 main.py --input-instance-folder $mydir/podatki/ --output-folder $mydir/results/ --ignitions --sim-years 1 --nsims 5 --finalGrid --weather rows --nweathers 1 --Fire-Period-Length 1.0 --output-messages --ROS-CV 0.0 --seed 123 --stats --allPlots --IgnitionRad 5 --grids --combine
-
-
-# # za gif iz Cell2Fire dir za ta primer
-# cd ..
-# python3 -m cell2fire.utils.gif testiranje/tolmin/results/Plots/Plots1 testiranje/tolmin/results/Plots/Plots1/tolmin_output.gif    
-
