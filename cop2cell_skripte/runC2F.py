@@ -25,6 +25,7 @@ def run_cell2fire(
 
     original_dir = os.getcwd()  # Save the current directory
     cell2fire_path = os.path.join(original_dir, "../../Cell2Fire/cell2fire")
+    gif_path = os.path.join(original_dir, "../../Cell2Fire")
     # IZBRI"SI "../" CE LAUFA"S V main.py
 
     # Base command
@@ -54,17 +55,15 @@ def run_cell2fire(
     # ODSTRANI data.csv
     os.remove(input_folder + "Data.csv")
     print("Data.csv je izbrisan (se mi zdi).")
-
+    
     # Run the command from the cell2fire directory
     subprocess.run(command, cwd=cell2fire_path)
-
-    # naredi GIF
-    os.chdir("..")
+    
+    subprocess.run(["python3", "cell2fire/utils/gif.py", "../FireLine/rezultati_cell2fire/Plots/Plots1", "../FireLine/rezultati_cell2fire/output.gif"], cwd=gif_path)
 
 
     # Back to the original directory (not strictly needed unless you're doing more afterward)
     os.chdir(original_dir)
-    subprocess.run("python3 -m cell2fire.utils.gif ../FireLine/rezultati_cell2fire ../FireLine/rezultati_cell2fire/output.gif")
 
 # Example call
 def main():
