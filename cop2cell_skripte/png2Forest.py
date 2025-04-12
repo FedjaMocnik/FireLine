@@ -54,7 +54,7 @@ def generate_forest_asc(vegetation_path: str, water_path: str, output_path: str,
 
     with open(output_ignitions, 'w') as f2:
         f2.write("Year,Ncell\n")
-        f2.write(f"1,{(ncols * nrows) / 2}\n")
+        f2.write(f"1,{int((ncols * nrows) / 2)}\n")
 
 
 def main():
