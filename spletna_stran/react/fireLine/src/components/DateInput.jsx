@@ -5,7 +5,7 @@ function DateInput({ selectedDate, onDateChange }) {
 
   return (
     <div style={{ margin: '20px', color: '#FBFAE4' }}>
-      <label htmlFor="date-picker">Izberi datum:</label><br />
+      <label htmlFor="date-picker">2. Izberi datum:</label><br />
       <input
         id="date-picker"
         type="date"

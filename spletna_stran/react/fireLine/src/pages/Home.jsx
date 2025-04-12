@@ -21,17 +21,15 @@ function Home() {
   return (
     <HomeWrapper>
       <h1>FireLine: preprečevanje gozdnih požarov</h1>
-      <h2>Zemljevid</h2>
-      <p>Izberi točko na zemljevidu</p>
+      <h2>Orodje</h2>
+      <p style={{ margin: '20px'}} >1. Izberi točko na zemljevidu:</p>
       <Map onRectangleChange={setRectangleCoords} />
 
-      <div className="flex items-center justify-between py-4">
-        <div>
-          <DateInput selectedDate={date} onDateChange={setDate} />
-        </div>
-        <div className="flex items-center justify-center bg-gray-100 p-4">
-          <GenerateButton rectangleCoords={rectangleCoords} />
-        </div>
+      <div>
+        <DateInput selectedDate={date} onDateChange={setDate} />
+      </div>
+      <div className="flex items-center justify-center bg-gray-100 p-4">
+        <GenerateButton rectangleCoords={rectangleCoords} />
       </div>
 
     </HomeWrapper>
