@@ -5,7 +5,7 @@ import numpy as np
 import argparse
 from PIL import Image
 
-def generate_forest_asc(vegetation_path: str, water_path: str, output_path: str, xllcorner: int, yllcorner: int, cellsize: int):
+def generate_forest_asc(vegetation_path: str, water_path: str, output_path: str, xllcorner: int, yllcorner: int, cellsize: int, output_ignitions : str):
     # nalozi sliki v greyscale
     veg_img = Image.open(vegetation_path).convert('L')
     water_img = Image.open(water_path).convert('L')
@@ -52,10 +52,15 @@ def generate_forest_asc(vegetation_path: str, water_path: str, output_path: str,
         for row in forest_grid:
             f.write(" ".join(map(str, row)) + "\n")
 
+    with open(output_ignitions, 'w') as f2:
+        f2.write("Year,Ncell\n")
+        f2.write(f"1,{(ncols * nrows) / 2}\n")
+
+
 def main():
 
     # PARSANJE ARGUMENTOV V FUNKCIJO
-    # ZAZENI TAKO: python png2Forest.py {IME_SLIKE_NVID} {IME_SLIKE_VODA} {XLL_KOORDINATE} {YLL_KOORDINATE} {CELLSIZE} --output Forest.asc
+    # ZAZENI TAKO: python png2Forest.py {IME_SLIKE_NVID} {IME_SLIKE_VODA} {XLL_KOORDINATE} {YLL_KOORDINATE} {CELLSIZE} --output Forest.asc --output_ignitions Ignitions.csv
     # NPR: python png2Forest.py vhodTestNDIV.png vhodTestNDIV.png 457900 5716800 100 --output Forest.asc
     parser = argparse.ArgumentParser(description="Generiraj .asc datoteko iz NDVI in vode.")
     parser.add_argument("vegetation", help="Pot do NDVI slike")
@@ -64,11 +69,12 @@ def main():
     parser.add_argument("yllcorner", help="YLLCORNER")
     parser.add_argument("cellsize", help="CELLSIZE")
     parser.add_argument("--output", default="Forest.asc", help="Izhodna .asc datoteka (privzeto: Forest.asc)")
+    parser.add_argument("--output_ignitions", help="IGNITION")
 
     args = parser.parse_args()
 
     # XLLCORNER, YLLCORNER 457900 5716800, CELLSIZE NUJNO 100 (glede na to kako trenutno delamo)
-    generate_forest_asc(args.vegetation, args.water, args.output, args.xllcorner, args.yllcorner, args.cellsize)
+    generate_forest_asc(args.vegetation, args.water, args.output, args.xllcorner, args.yllcorner, args.cellsize, args.output_ignitions)
     print(f"{args.output} je generiran. Verzija 0.0.2")
 
 if __name__ == "__main__":

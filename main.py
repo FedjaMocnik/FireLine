@@ -44,7 +44,7 @@ def generate(coordinates):
     yllcorner = 1
     cellsize = 100
     # naredi Forest.asc iz slik iz satelita in shrani v cop2cell_skripte/results datoteko Forest.asc
-    generate_forest_asc("coord2img/results/forest.png", "coord2img/results/water.png", "cop2cell_skripte/results/Forest.asc", xllcorner, yllcorner, cellsize)
+    generate_forest_asc("coord2img/results/forest.png", "coord2img/results/water.png", "cop2cell_skripte/results/Forest.asc", xllcorner, yllcorner, cellsize, "cop2cell_skripte/results/Ignitions.csv")
     print("Forest.asc je generiran. Verzija 0.0.2")
 
     # parametri za Weather.csv
