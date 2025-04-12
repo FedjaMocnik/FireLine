@@ -17,7 +17,7 @@ function Home() {
 
   return (
     <HomeWrapper>
-      <h1>FireLine: preprečevanje goznih požarov</h1>
+      <h1>FireLine: preprečevanje gozdnih požarov</h1>
       <h2>Zemljevid</h2>
       <p>Izberi območje</p>
       <Map onRectangleChange={setRectangleCoords} />
