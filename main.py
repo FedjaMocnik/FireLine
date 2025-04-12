@@ -8,6 +8,7 @@ from cop2cell_skripte.png2Forest import *
 from cop2cell_skripte.api2Weather import *
 from cop2cell_skripte.api2elevation import *
 from cop2cell_skripte.ele2slope import *
+from cop2cell_skripte.runC2F import *
 
 def generate(coordinates):
     # Creates .geojson file from coordinates
@@ -27,11 +28,9 @@ def generate(coordinates):
     print(latitude1,longitude1,latitude2,longitude2)
 
     create_geojson_rectangle((latitude1,longitude1),(latitude2, longitude2))
-    
 
     # Gets data form setelites and saves it to coord2img/results
     get_data()
-
 
     # PREBERI PODATKE IZ GEOJSON
     with open("coord2img/results/new_area.geojson", "r") as f:
@@ -76,8 +75,10 @@ def generate(coordinates):
     print("slope.asc in saz.asc sta generirana. Verzija 0.0.1")
     print("Weather.csv je generiran. Verzija 0.1.0")
 
-    
-    #copies files to site directorie to be displayed on a page
+    # za"zeni Cell2Fire
+    run_cell2fire("../../FireLine/cop2cell_skripte/results", "./../FireLine/rezultati_cell2fire/")
+
+    # copies files to site directory to be displayed on a page
     copy_file("forest.png", "./coord2img/results", "./spletna_stran/react/fireLine/public")
     return 0
 
