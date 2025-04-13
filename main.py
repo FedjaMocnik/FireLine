@@ -57,7 +57,7 @@ def generate(coordinates,selectedDate):
     # parametri za Weather.csv
     wlat = (miny + maxy) / 2
     wlong = (minx + maxx) / 2
-    start_date = "2024-06-14"
+    start_date = selectedDate
     scenario = "S1"
     # naredi Weather.csv in shrani v cop2cell_skripte/results datoteko Weather.csv
     fetch_weather_data(wlat, wlong, start_date, scenario, "cop2cell_skripte/results/Weather.csv")
@@ -87,7 +87,7 @@ def generate(coordinates,selectedDate):
     print("Weather.csv je generiran. Verzija 0.1.0")
 
     # za"zeni Cell2Fire
-    run_cell2fire("../../FireLine/cop2cell_skripte/results", "../../FireLine/rezultati_cell2fire/")
+    run_cell2fire("../../FireLine/cop2cell_skripte/results/", "../../FireLine/rezultati_cell2fire/")
 
     # copies files to site directory to be displayed on a page
     copy_file("forest.png", "./coord2img/results", "./spletna_stran/react/fireLine/public")

@@ -24,9 +24,10 @@ def run_cell2fire(
 ):
 
     original_dir = os.getcwd()  # Save the current directory
-    cell2fire_path = os.path.join(original_dir, "../../Cell2Fire/cell2fire")
-    gif_path = os.path.join(original_dir, "../../Cell2Fire")
-    # IZBRI"SI "../" CE LAUFA"S V main.py
+    cell2fire_path = os.path.join(original_dir, "../Cell2Fire/cell2fire")
+    gif_path = os.path.join(original_dir, "../Cell2Fire")
+    # "../Cell2Fire/cell2fire" in "../Cell2Fire" CE LAUFA"S V main.py
+
 
     # Base command
     command = [
@@ -53,8 +54,11 @@ def run_cell2fire(
     if combine: command.append("--combine")
 
     # ODSTRANI data.csv
-    os.remove(input_folder + "Data.csv")
-    print("Data.csv je izbrisan (se mi zdi).")
+    try:
+        os.remove(input_folder + "Data.csv")
+        print("Data.csv je izbrisan (se mi zdi).")
+    except FileNotFoundError:
+        print("Ni Data.csv za izbrisati.")
     
     # Run the command from the cell2fire directory
     subprocess.run(command, cwd=cell2fire_path)
