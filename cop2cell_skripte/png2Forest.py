@@ -32,13 +32,13 @@ def generate_forest_asc(vegetation_path: str, water_path: str, output_path: str,
 
             # nastavi vrednost
             if water_val < 245:
-                forest_grid[i, j] = 101  # nastavi stavbe ceste reke
+                forest_grid[i, j] = 101  # nastavi stavbe, ceste, reke
             elif veg_val < 62:
                 forest_grid[i, j] = 2  # nastavi gozd
             elif veg_val < 100:
                 forest_grid[i, j] = 32  # nastavi travo
             else:
-                forest_grid[i, j] = 101
+                forest_grid[i, j] = 101 # se ostale stavbe, ceste
 
     # pisanje v izhodno datoteko
     with open(output_path, 'w') as f:
