@@ -19,8 +19,12 @@ def generate(coordinates,selectedDate):
     coordinates = coordinates[0]
     latOfPoint = coordinates[0]
     lonOfPoint = coordinates[1]
+    
+    # tocke za ignition.csv
+    latIgnition = latOfPoint
+    lonIgnition = lonOfPoint
 
-    areaSize = 3 #km
+    areaSize = 2 #km
     deltaLon = areaSize / (111.32 * math.cos(math.radians(latOfPoint)))
     deltaLat = areaSize / 111.32
 
@@ -62,10 +66,11 @@ def generate(coordinates,selectedDate):
     start_date = selectedDate
     scenario = "S1"
     # naredi Weather.csv in shrani v cop2cell_skripte/results datoteko Weather.csv
-    #fetch_weather_data(wlat, wlong, start_date, scenario, "cop2cell_skripte/results/Weather.csv")
+    fetch_weather_data(wlat, wlong, start_date, scenario, "cop2cell_skripte/results/Weather.csv")
 
-    # naredi Ignitions.csv datoteko
-    coord2Ign(int (xllcorner), int(yllcorner), lonOfPoint, latOfPoint, nrows, ncols, cellsize)
+    # naredi Ignitions.csv 
+    print(maxy, minx, miny, maxx, latIgnition, lonIgnition, nrows, ncols)
+    coord2Ign(maxy, minx, miny, maxx, latIgnition, lonIgnition, nrows, ncols)
 
     #klic api2elevation.py - cakam se da mi un model poveca iz 10km^2 na vec
     forest_file = "cop2cell_skripte/results/Forest.asc"
@@ -98,6 +103,8 @@ def generate(coordinates,selectedDate):
 
     # copies files to site directory to be displayed on a page
     copy_file("forest.png", "./coord2img/results", "./spletna_stran/react/fireLine/public")
+    copy_file("output.gif", "./rezultati_cell2fire", "./spletna_stran/react/fireLine/public")
+    
     return 0
 
 if __name__=="__main__":

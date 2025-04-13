@@ -24,7 +24,7 @@ def fetch_weather_data(latitude, longitude, start_date, scenario_value, output_p
     # string --> datetime object
     given_date = datetime.strptime(start_date,"%Y-%m-%d")
     #izracunamo nov datum -> koncni datum (zacetni + 5 dni)
-    end_date = (given_date + timedelta(days=5)).date()
+    end_date = (given_date + timedelta(days=1)).date()
     
     # nastavi Open-Meteo API client z cacheom in ponovi ob napaki
     cache_session = requests_cache.CachedSession('.cache', expire_after = -1)

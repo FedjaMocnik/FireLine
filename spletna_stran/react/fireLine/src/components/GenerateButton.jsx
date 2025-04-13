@@ -48,7 +48,14 @@ const GenerateButton = ({ rectangleCoords, selectedDate }) => {
   };
 
   return (
-    <Box className="flex flex-col items-center gap-6 mt-6">
+    <Box className="mt-6"
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        width: "100%",
+    }}>
       <LoadingButton
         onClick={handleGenerate}
         endIcon={<SendIcon />}
@@ -74,11 +81,18 @@ const GenerateButton = ({ rectangleCoords, selectedDate }) => {
       </LoadingButton>
 
       {imageGenerated && (
-        <ImageCard
-          imageSrc={`/public/forest.png?${Date.now()}`}
-          title="Generated Image"
-          description="This image was created by the Python backend."
-        />
+        <div>
+          <ImageCard
+            imageSrc={`/public/forest.png?${Date.now()}`}
+            title="Generated Image"
+            description="This image was created by the Python backend."
+          />
+          <ImageCard
+            imageSrc={`/public/output.gif?${Date.now()}`}
+            title="Generated Gif"
+            description="Gif."
+          />
+        </div>
       )}
     </Box>
   );
