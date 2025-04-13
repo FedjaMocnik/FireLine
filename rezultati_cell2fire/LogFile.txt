@@ -23,7 +23,7 @@ Weather DataFrame from instance ../../FireLine/cop2cell_skripte/results/Weather.
 
 Selected ignition point for Year 1, sim 1: 10117
 ----------------------------- Results -----------------------------
-Total Available Cells:    16694 - % of the Forest: 83.47%
-Total Burnt Cells:        2956 - % of the Forest: 14.78%
-Total Non-Burnable Cells: 350 - % of the Forest: 1.75%
+Total Available Cells:    18282 - % of the Forest: 91.41%
+Total Burnt Cells:        1286 - % of the Forest: 6.43%
+Total Non-Burnable Cells: 432 - % of the Forest: 2.16%
 Total Harvested Cells: 0 - % of the Forest: 0%

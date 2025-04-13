@@ -72,12 +72,25 @@ function Map({ onCoordsChange }) {
       </MapWrapper>
       {clickedCoords && (
         <ResultsContainer>
-          <h3 style={{ marginBottom: '12px' }}>Koordinate izbrane točke</h3>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+            <h3 style={{ margin: 0 }}>Koordinate izbrane točke:</h3>
             <div>
-              <strong>Lat:</strong> {clickedCoords.lat.toFixed(4)} <br />
+              <strong>Lat:</strong> {clickedCoords.lat.toFixed(4)}{', '}
               <strong>Lng:</strong> {clickedCoords.lng.toFixed(4)}
             </div>
+          
+            {/*<div>
+              <strong>Zgornji desni kot:</strong><br />
+              {rectangleCoords.northWest.lat.toFixed(4)}, {rectangleCoords.northWest.lng.toFixed(4)}
+            </div>
+            <div>
+              <strong>Spodnji levi kot:</strong><br />
+              {rectangleCoords.southEast.lat.toFixed(4)}, {rectangleCoords.southEast.lng.toFixed(4)}
+            </div>
+            <div>
+              <strong>Sredina:</strong><br />
+              {rectangleCoords.center.lat.toFixed(4)}, {rectangleCoords.center.lng.toFixed(4)}
+            </div>*/}
           </div>
         </ResultsContainer>
       )}
