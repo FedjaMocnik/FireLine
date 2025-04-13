@@ -12,7 +12,7 @@ def coord2Ign(xllcorner: int, yllcorner: int, tockaX: int, tockaY: int,  nrow: i
     return row * ncol + col
 
 def main():
-    print(coord2Ign(0, 0, 0, 0, 0, 0, 0))
+    print(coord2Ign(1, 1, 1, 1, 1, 1, 1))
 
 
 if __name__ == "__main__":

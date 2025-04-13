@@ -52,6 +52,8 @@ def generate_forest_asc(vegetation_path: str, water_path: str, output_path: str,
         for row in forest_grid:
             f.write(" ".join(map(str, row)) + "\n")
 
+    return ncols, nrows
+
 """
     with open(output_ignitions, 'w') as f2:
         f2.write("Year,Ncell\n")

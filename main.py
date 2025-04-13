@@ -12,6 +12,7 @@ from cop2cell_skripte.runC2F import *
 from cop2cell_skripte.coord2Ign import *
 import math
 
+
 def generate(coordinates,selectedDate):
     #number of km form selected point to the edge of the area
     coordinates = coordinates[0]
@@ -22,7 +23,7 @@ def generate(coordinates,selectedDate):
     deltaLon = areaSize / (111.32 * math.cos(math.radians(latOfPoint)))
     deltaLat = areaSize / 111.32
 
-    
+
     latitude1 = latOfPoint + deltaLat
     longitude1 = lonOfPoint - deltaLon
     latitude2 = latOfPoint - deltaLat
@@ -47,11 +48,11 @@ def generate(coordinates,selectedDate):
     minx, miny, maxx, maxy = polygon.bounds
 
     # parametri za Forest.asc (treba pravilno nastavit)
-    xllcorner = 1
-    yllcorner = 1
+    xllcorner = minx
+    yllcorner = miny
     cellsize = 100
     # naredi Forest.asc iz slik iz satelita in shrani v cop2cell_skripte/results datoteko Forest.asc
-    generate_forest_asc("coord2img/results/forest.png", "coord2img/results/water.png", "cop2cell_skripte/results/Forest.asc", xllcorner, yllcorner, cellsize)
+    ncols, nrows = generate_forest_asc("coord2img/results/forest.png", "coord2img/results/water.png", "cop2cell_skripte/results/Forest.asc", xllcorner, yllcorner, cellsize)
     print("Forest.asc je generiran. Verzija 0.0.2")
 
     # parametri za Weather.csv
@@ -63,8 +64,7 @@ def generate(coordinates,selectedDate):
     fetch_weather_data(wlat, wlong, start_date, scenario, "cop2cell_skripte/results/Weather.csv")
 
     # naredi Ignitions.csv datoteko
-    # TO-DO coord2Ign()
-    # VID DODAJ!!!
+    coord2Ign(int (xllcorner), int(yllcorner), latOfPoint, lonOfPoint, nrows, ncols, cellsize)
 
     # klic api2elevation.py - cakam se da mi un model poveca iz 10km^2 na vec
     forest_file = "cop2cell_skripte/results/Forest.asc"
@@ -99,4 +99,4 @@ if __name__=="__main__":
     latitude2 = 461467.877750
     longitude2 = 5099408.768305
     coordinates_test = ((latitude1,longitude1),(latitude2,longitude2))
-    generate(coordinates_test)
+    generate(coordinates_test, "2024-01-01")
