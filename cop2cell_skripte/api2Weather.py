@@ -24,7 +24,7 @@ def fetch_weather_data(latitude, longitude, start_date, scenario_value, output_p
     # string --> datetime object
     given_date = datetime.strptime(start_date,"%Y-%m-%d")
     #izracunamo nov datum -> koncni datum (zacetni + 5 dni)
-    end_date = (given_date + timedelta(days=1)).date()
+    end_date = (given_date + timedelta(days=3)).date()
     
     # nastavi Open-Meteo API client z cacheom in ponovi ob napaki
     cache_session = requests_cache.CachedSession('.cache', expire_after = -1)
@@ -38,12 +38,10 @@ def fetch_weather_data(latitude, longitude, start_date, scenario_value, output_p
     if given_date.date() < mesec_nazaj:
         # historical API
         url = "https://archive-api.open-meteo.com/v1/archive"
-        print("Given date is more than one month ago.")
         
     else:
         # forecast API
         url = "https://api.open-meteo.com/v1/forecast"
-        print("Given date is within the last month.")
 
     # pomemben vrstni red parametrov !
     params = {

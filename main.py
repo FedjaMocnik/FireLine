@@ -13,6 +13,9 @@ from cop2cell_skripte.coord2Ign import *
 from algoFireLine.fireline import *
 import math
 
+def get_burned_value(filepath):
+    df = pd.read_csv(filepath)
+    return df.loc[0, 'Burned']
 
 def generate(coordinates,selectedDate):
     #number of km form selected point to the edge of the area
@@ -55,7 +58,7 @@ def generate(coordinates,selectedDate):
     # parametri za Forest.asc (treba pravilno nastavit)
     xllcorner = minx
     yllcorner = miny
-    cellsize = 100
+    cellsize = 300
     # naredi Forest.asc iz slik iz satelita in shrani v cop2cell_skripte/results datoteko Forest.asc
     ncols, nrows = generate_forest_asc("coord2img/results/forest.png", "coord2img/results/water.png", "cop2cell_skripte/results/Forest.asc", xllcorner, yllcorner, cellsize)
     print("Forest.asc je generiran. Verzija 0.0.2")
@@ -67,10 +70,12 @@ def generate(coordinates,selectedDate):
     scenario = "S1"
     # naredi Weather.csv in shrani v cop2cell_skripte/results datoteko Weather.csv
     fetch_weather_data(wlat, wlong, start_date, scenario, "cop2cell_skripte/results/Weather.csv")
-
+    print("Weather.asc je generiran.")
+    
     # naredi Ignitions.csv 
     print(maxy, minx, miny, maxx, latIgnition, lonIgnition, nrows, ncols)
     coord2Ign(maxy, minx, miny, maxx, latIgnition, lonIgnition, nrows, ncols)
+    print("Ignitions.asc je generiran.")
 
     #klic api2elevation.py - cakam se da mi un model poveca iz 10km^2 na vec
     forest_file = "cop2cell_skripte/results/Forest.asc"
@@ -90,22 +95,34 @@ def generate(coordinates,selectedDate):
     save_asc('cop2cell_skripte/results/slope.asc', header, slope)
     save_asc('cop2cell_skripte/results/saz.asc', header, aspect)
     print("slope.asc in saz.asc sta generirana. Verzija 0.0.1")
-    print("Weather.csv je generiran. Verzija 0.1.0")
 
     #za"zeni Cell2Fire
     run_cell2fire("../../FireLine/cop2cell_skripte/results/", "../../FireLine/rezultati_cell2fire/")
+    copy_file("output.gif", "./rezultati_cell2fire", "./spletna_stran/react/fireLine/public", "brezPregrade.gif")
+    # stevilo burned cells
+    burned_prej = get_burned_value("rezultati_cell2fire/Stats/FinalStats.csv")
 
     #zazeni fireline(PATH_TO_HOURLY_STATS, PATH_TO_GRIDS, SAVE_PATH, PATH_TO_PNGS)
-    #generate_fireline(...)
+    generate_fireline("rezultati_cell2fire/Stats/HourlyStats.csv", "rezultati_cell2fire/Grids/Grids1/", "rezultati_FireLine/", "coord2img/results/")
+    print("Rezultati iz algoritma so generirani.")
 
-    #se enkrat poklic cell2fire
-
-
-    # copies files to site directory to be displayed on a page
-    copy_file("forest.png", "./coord2img/results", "./spletna_stran/react/fireLine/public")
-    copy_file("output.gif", "./rezultati_cell2fire", "./spletna_stran/react/fireLine/public")
+    # se enkrat generiramo Forest.asc z pregradaVoda.png
+    generate_forest_asc("coord2img/results/forest.png", "rezultati_FireLine/pregradaVoda.png", "cop2cell_skripte/results/Forest.asc", xllcorner, yllcorner, cellsize)
+    print("Forest.asc z pregrado je generiran. Verzija 0.0.2")
     
-    return 0
+    #se enkrat poklic cell2fire
+    run_cell2fire("../../FireLine/cop2cell_skripte/results/", "../../FireLine/rezultati_cell2fire/")
+    # stevilo burned cells
+    burned_po_pregradi = get_burned_value("rezultati_cell2fire/Stats/FinalStats.csv")
+
+    faktor_izboljsave = burned_po_pregradi / burned_prej
+    print(faktor_izboljsave)
+    
+    # copies files to site directory to be displayed on a page
+    copy_file("pregradaSatelitska.png", "./rezultati_FireLine", "./spletna_stran/react/fireLine/public")
+    copy_file("output.gif", "./rezultati_cell2fire", "./spletna_stran/react/fireLine/public", "Pregrada.gif")
+    
+    return 1 - faktor_izboljsave
 
 if __name__=="__main__":
     latitude1 = 456231.740204

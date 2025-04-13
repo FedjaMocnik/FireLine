@@ -15,7 +15,7 @@ const FooterWrapper = styled.footer`
 const Footer = () => {
   return (
     <FooterWrapper>
-      <p>2025 FireLine. creditisi pa to</p>
+      <p>2025 FireLine - 5 prijateljev</p>
     </FooterWrapper>
   );
 };

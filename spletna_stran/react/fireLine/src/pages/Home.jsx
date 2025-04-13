@@ -21,7 +21,7 @@ function Home() {
     <HomeWrapper>
       <h1>FireLine: preprečevanje gozdnih požarov</h1>
       <h2>Orodje</h2>
-      <p style={{ margin: '20px'}} >1. Izberi točko na zemljevidu:</p>
+      <p style={{ margin: '20px'}} >1. Izberi točko začetka požara:</p>
       <Map onCoordsChange={setRectangleCoords} /> 
 
       <div>

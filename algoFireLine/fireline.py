@@ -112,12 +112,26 @@ def generate_fireline(PATH_TO_HOURLY_STATS, PATH_TO_GRIDS, SAVE_PATH, PATH_TO_PN
     pomembne_tocke = np.vstack([zac,najdle,T, najblizT])
     plotCSV(result, pregrada, pomembne_tocke, map_mid, SAVE_PATH, prececisca)
 
-    voda = Image.open(f"{PATH_TO_PNGS}tolminVoda.png")
-    draw_voda = ImageDraw.Draw(voda)
     pregrada[:,1::2]+=1
     prej = pregrada[0]
+    
+    
+    
+    voda = Image.open(f"{PATH_TO_PNGS}water.png")
+    draw_voda = ImageDraw.Draw(voda)
 
     for tocka in pregrada[1:]:
         draw_voda.line((tocka[0],tocka[1],prej[0], prej[1]), fill="blue", width=2)
         prej = tocka
     voda.save(f"{SAVE_PATH}pregradaVoda.png")
+
+
+
+    voda = Image.open(f"{PATH_TO_PNGS}bboxed_rgb.png")
+    draw_voda = ImageDraw.Draw(voda)
+    
+    prej = pregrada[0]
+    for tocka in pregrada[1:]:
+        draw_voda.line((tocka[0],tocka[1],prej[0], prej[1]), fill="orange", width=2)
+        prej = tocka
+    voda.save(f"{SAVE_PATH}pregradaSatelitska.png")

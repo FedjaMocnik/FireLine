@@ -20,9 +20,9 @@ def generate():
     date = data.get("date") 
     print("Received coordinates:", coords)
     print("Received date:", date)
-    c = generate(coords,date) 
+    faktor_izboljsave = generate(coords,date) 
     
-    return jsonify({"success": True})
+    return jsonify({"success": True, "faktor_izboljsave" : faktor_izboljsave})
 
 @app.route("/public/<path:filename>")
 def serve_static(filename):

@@ -55,7 +55,7 @@ def run_cell2fire(
 
     # ODSTRANI data.csv
     try:
-        os.remove(input_folder + "Data.csv")
+        os.remove("cop2cell_skripte/results/Data.csv")
         print("Data.csv je izbrisan (se mi zdi).")
     except FileNotFoundError:
         print("Ni Data.csv za izbrisati.")

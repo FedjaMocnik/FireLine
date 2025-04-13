@@ -2,6 +2,7 @@ from pyproj import Transformer
 import json
 import shutil
 from pathlib import Path
+import csv
 
 def create_geojson_rectangle(top_left, bottom_right, output_file="./coord2img/utils/input_area.geojson"):
     """
@@ -170,8 +171,10 @@ def edges_to_geojson_rectangle(edges, input_crs=32633):
         }
     }
 
-def copy_file(filename, src_dir, dest_dir):
+def copy_file(filename, src_dir, dest_dir, new_name=None):
     src = Path(src_dir) / filename
-    dest = Path(dest_dir) / filename
+    dest_filename = new_name if new_name else filename
+    dest = Path(dest_dir) / dest_filename
     Path(dest_dir).mkdir(parents=True, exist_ok=True)
     shutil.copy2(src, dest)
+    
