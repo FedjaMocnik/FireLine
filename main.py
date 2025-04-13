@@ -10,23 +10,29 @@ from cop2cell_skripte.api2elevation import *
 from cop2cell_skripte.ele2slope import *
 from cop2cell_skripte.runC2F import *
 from cop2cell_skripte.coord2Ign import *
+import math
 
-def generate(coordinates):
-    # Creates .geojson file from coordinates
-    # SMALL AREAS ONLY as too many requests are rejected
-    # koordinate tivoli:(456231.740204,5102686.348333),(461467.877750,5099408.768305)
-    if coordinates == None:
-        latitude1 = 456231.740204
-        longitude1 = 5102686.348333
-        latitude2 = 461467.877750
-        longitude2 = 5099408.768305
-    else:
-        latitude1,longitude1 = coordinates[0]
-        latitude2,longitude2 = coordinates[1]
+def generate(coordinates,selectedDate):
+    #number of km form selected point to the edge of the area
+    coordinates = coordinates[0]
+    latOfPoint = coordinates[0]
+    lonOfPoint = coordinates[1]
 
+    areaSize = 3 #km
+    deltaLon = areaSize / (111.32 * math.cos(math.radians(latOfPoint)))
+    deltaLat = areaSize / 111.32
+
+    
+    latitude1 = latOfPoint + deltaLat
+    longitude1 = lonOfPoint - deltaLon
+    latitude2 = latOfPoint - deltaLat
+    longitude2 = lonOfPoint + deltaLon
+
+    #upper left, bottom rigth and selected point coordinates in utm 33 N
     latitude1,longitude1 = latlon_to_utm33n(latitude1,longitude1)
     latitude2,longitude2 = latlon_to_utm33n(latitude2,longitude2)
-    print(latitude1,longitude1,latitude2,longitude2)
+    latOfPoint,lonOfPoint = latlon_to_utm33n(latOfPoint,lonOfPoint)
+
 
     create_geojson_rectangle((latitude1,longitude1),(latitude2, longitude2))
 

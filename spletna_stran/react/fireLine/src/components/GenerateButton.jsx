@@ -4,13 +4,13 @@ import Box from "@mui/material/Box";
 import SendIcon from "@mui/icons-material/Send";
 import { LoadingButton } from "@mui/lab";
 
-const GenerateButton = ({ rectangleCoords }) => {
+const GenerateButton = ({ rectangleCoords, selectedDate }) => {  
   const [loading, setLoading] = useState(false);
   const [imageGenerated, setImageGenerated] = useState(false);
 
   const handleGenerate = async () => {
-    if (!rectangleCoords) {
-      console.error("No area selected");
+    if (!rectangleCoords || !selectedDate) {
+      console.error("Missing data");
       return;
     }
 
@@ -18,18 +18,21 @@ const GenerateButton = ({ rectangleCoords }) => {
     setImageGenerated(false);
 
     const coordinates = [
-      [rectangleCoords.northWest.lat, rectangleCoords.northWest.lng],
-      [rectangleCoords.southEast.lat, rectangleCoords.southEast.lng]
+      [rectangleCoords.center.lat,rectangleCoords.center.lng]
     ];
 
+
     try {
-      console.log("Sending coordinates:", coordinates);
+      console.log("Sending coordinates:", coordinates, "Date:", selectedDate);
       const res = await fetch("/generate", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ coordinates }),
+        body: JSON.stringify({ 
+          coordinates,
+          date: selectedDate 
+        }),
       });
 
       if (res.ok) {
@@ -53,17 +56,17 @@ const GenerateButton = ({ rectangleCoords }) => {
         loadingPosition="end"
         variant="contained"
         size="medium"
-        disabled={!rectangleCoords}
+        disabled={!rectangleCoords}  
         sx={{
-          backgroundColor: "#256b68", // Green color
+          backgroundColor: "#256b68",
           "&:hover": {
-            backgroundColor: "#388E3C", // Darker green on hover
+            backgroundColor: "#388E3C",
           },
           "&:disabled": {
-            backgroundColor: "#E0E0E0", // Light gray when disabled
+            backgroundColor: "#E0E0E0",
           },
           "&.MuiLoadingButton-loading": {
-            backgroundColor: "#2196F3", // Blue color when loading
+            backgroundColor: "#2196F3",
           }
         }}
       >

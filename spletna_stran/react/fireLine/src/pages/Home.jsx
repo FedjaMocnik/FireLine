@@ -17,21 +17,22 @@ function Home() {
   const [rectangleCoords, setRectangleCoords] = useState(null);
   const [date, setDate] = useState(() => new Date().toISOString().split('T')[0]);
 
-
   return (
     <HomeWrapper>
       <h1>FireLine: preprečevanje gozdnih požarov</h1>
       <h2>Orodje</h2>
       <p style={{ margin: '20px'}} >1. Izberi točko na zemljevidu:</p>
-      <Map onRectangleChange={setRectangleCoords} />
+      <Map onCoordsChange={setRectangleCoords} /> 
 
       <div>
         <DateInput selectedDate={date} onDateChange={setDate} />
       </div>
       <div className="flex items-center justify-center bg-gray-100 p-4">
-        <GenerateButton rectangleCoords={rectangleCoords} />
+        <GenerateButton 
+          rectangleCoords={rectangleCoords} 
+          selectedDate={date}  
+        />
       </div>
-
     </HomeWrapper>
   );
 }
