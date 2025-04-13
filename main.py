@@ -64,7 +64,7 @@ def generate(coordinates,selectedDate):
     fetch_weather_data(wlat, wlong, start_date, scenario, "cop2cell_skripte/results/Weather.csv")
 
     # naredi Ignitions.csv datoteko
-    coord2Ign(int (xllcorner), int(yllcorner), latOfPoint, lonOfPoint, nrows, ncols, cellsize)
+    coord2Ign(int (xllcorner), int(yllcorner), lonOfPoint, latOfPoint, nrows, ncols, cellsize)
 
     # klic api2elevation.py - cakam se da mi un model poveca iz 10km^2 na vec
     forest_file = "cop2cell_skripte/results/Forest.asc"

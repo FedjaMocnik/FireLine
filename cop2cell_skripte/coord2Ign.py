@@ -7,7 +7,7 @@ def coord2Ign(xllcorner: int, yllcorner: int, tockaX: int, tockaY: int,  nrow: i
     row = int((tockaY - yllcorner) / cellsize)
     row = nrow - 1 - row
 
-    with open("Ignition.csv", "w", newline="") as f:
+    with open("cop2cell_skripte/results/Ignitions.csv", "w", newline="") as f:
         writer = csv.writer(f)
         writer.writerow(["Year", "Ncell"])
         writer.writerow([1, row * ncol + col])
