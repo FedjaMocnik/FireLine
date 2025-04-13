@@ -10,6 +10,7 @@ from cop2cell_skripte.api2elevation import *
 from cop2cell_skripte.ele2slope import *
 from cop2cell_skripte.runC2F import *
 from cop2cell_skripte.coord2Ign import *
+from algoFireLine.fireline import *
 import math
 
 
@@ -66,28 +67,34 @@ def generate(coordinates,selectedDate):
     # naredi Ignitions.csv datoteko
     coord2Ign(int (xllcorner), int(yllcorner), lonOfPoint, latOfPoint, nrows, ncols, cellsize)
 
-    # klic api2elevation.py - cakam se da mi un model poveca iz 10km^2 na vec
-    # forest_file = "cop2cell_skripte/results/Forest.asc"
-    # output_tiff = "cop2cell_skripte/results/Elevation.tif"
-    # output_asc = "cop2cell_skripte/results/elevation.asc"
-    # res_m = 10 # na koliko metrov natancno se dobi elevation.asc (med 1 in 30)
-    # metadata = read_forest_metadata(forest_file)
-    # download_geotiff(minx, maxx, miny, maxy, res_m, output_tiff)
-    # elevation_data = extract_elevation_from_tiff(output_tiff, metadata["nrows"], metadata["ncols"])
-    # write_elevation_asc(metadata, elevation_data, output_asc)
-    # print(f"{output_asc} je generiran. Verzija 0.1.0")
+    #klic api2elevation.py - cakam se da mi un model poveca iz 10km^2 na vec
+    forest_file = "cop2cell_skripte/results/Forest.asc"
+    output_tiff = "cop2cell_skripte/results/Elevation.tif"
+    output_asc = "cop2cell_skripte/results/elevation.asc"
+    res_m = 10 # na koliko metrov natancno se dobi elevation.asc (med 1 in 30)
+    metadata = read_forest_metadata(forest_file)
+    download_geotiff(minx, maxx, miny, maxy, res_m, output_tiff)
+    elevation_data = extract_elevation_from_tiff(output_tiff, metadata["nrows"], metadata["ncols"])
+    write_elevation_asc(metadata, elevation_data, output_asc)
+    print(f"{output_asc} je generiran. Verzija 0.1.0")
 
-    # # klic ele2slope.py
-    # header, elevation = load_asc(output_asc)
-    # # cellsize je ze definiran
-    # slope, aspect = compute_slope_aspect(elevation, cellsize)
-    # save_asc('cop2cell_skripte/results/slope.asc', header, slope)
-    # save_asc('cop2cell_skripte/results/saz.asc', header, aspect)
-    # print("slope.asc in saz.asc sta generirana. Verzija 0.0.1")
-    # print("Weather.csv je generiran. Verzija 0.1.0")
+    # klic ele2slope.py
+    header, elevation = load_asc(output_asc)
+    # cellsize je ze definiran
+    slope, aspect = compute_slope_aspect(elevation, cellsize)
+    save_asc('cop2cell_skripte/results/slope.asc', header, slope)
+    save_asc('cop2cell_skripte/results/saz.asc', header, aspect)
+    print("slope.asc in saz.asc sta generirana. Verzija 0.0.1")
+    print("Weather.csv je generiran. Verzija 0.1.0")
 
-    # za"zeni Cell2Fire
-    #run_cell2fire("../../FireLine/cop2cell_skripte/results/", "../../FireLine/rezultati_cell2fire/")
+    #za"zeni Cell2Fire
+    run_cell2fire("../../FireLine/cop2cell_skripte/results/", "../../FireLine/rezultati_cell2fire/")
+
+    #zazeni fireline(PATH_TO_HOURLY_STATS, PATH_TO_GRIDS, SAVE_PATH, PATH_TO_PNGS)
+    #generate_fireline(...)
+
+    #se enkrat poklic cell2fire
+
 
     # copies files to site directory to be displayed on a page
     copy_file("forest.png", "./coord2img/results", "./spletna_stran/react/fireLine/public")

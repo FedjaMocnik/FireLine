@@ -7,15 +7,11 @@ import numpy as np
 from utils import gen_tocke, plotCSV, further_most_point,bresenham_line,podalsaj_pregrado
 from utils import prececisce_z_daljico,closest_point_indx,order_points_along_curve,plot_differences,pravokotnica_na_tocko
 from PIL import Image, ImageDraw
-import sys
 #from utils import check_barrier #odkometirej ko bo delal
 
-PATH_TO_HOURLY_STATS = sys.argv[1]
-PATH_TO_GRIDS = sys.argv[2]
-SAVE_PATH = sys.argv[3]
-PATH_TO_PNGS = sys.argv[4]
 
-def main():
+
+def generate_fireline(PATH_TO_HOURLY_STATS, PATH_TO_GRIDS, SAVE_PATH, PATH_TO_PNGS):
 
     df = pd.read_csv(PATH_TO_HOURLY_STATS, sep=',')
     burned = df['Burned'].tolist()
@@ -125,6 +121,3 @@ def main():
         draw_voda.line((tocka[0],tocka[1],prej[0], prej[1]), fill="blue", width=2)
         prej = tocka
     voda.save(f"{SAVE_PATH}pregradaVoda.png")
-
-if __name__ == "__main__":
-    main()
