@@ -47,6 +47,7 @@ def generate(coordinates,selectedDate):
 
     # Gets data form setelites and saves it to coord2img/results
     get_data()
+    print("Pridobljeni podatki iz satelita.")
 
     # PREBERI PODATKE IZ GEOJSON
     with open("coord2img/results/new_area.geojson", "r") as f:
@@ -58,7 +59,7 @@ def generate(coordinates,selectedDate):
     # parametri za Forest.asc (treba pravilno nastavit)
     xllcorner = minx
     yllcorner = miny
-    cellsize = 300
+    cellsize = 100
     # naredi Forest.asc iz slik iz satelita in shrani v cop2cell_skripte/results datoteko Forest.asc
     ncols, nrows = generate_forest_asc("coord2img/results/forest.png", "coord2img/results/water.png", "cop2cell_skripte/results/Forest.asc", xllcorner, yllcorner, cellsize)
     print("Forest.asc je generiran. Verzija 0.0.2")
@@ -86,7 +87,7 @@ def generate(coordinates,selectedDate):
     download_geotiff(minx, maxx, miny, maxy, res_m, output_tiff)
     elevation_data = extract_elevation_from_tiff(output_tiff, metadata["nrows"], metadata["ncols"])
     write_elevation_asc(metadata, elevation_data, output_asc)
-    print(f"{output_asc} je generiran. Verzija 0.1.0")
+    print("Elevation.asc je generiran. Verzija 0.1.0")
 
     # klic ele2slope.py
     header, elevation = load_asc(output_asc)
@@ -99,6 +100,7 @@ def generate(coordinates,selectedDate):
     #za"zeni Cell2Fire
     run_cell2fire("../../FireLine/cop2cell_skripte/results/", "../../FireLine/rezultati_cell2fire/")
     copy_file("output.gif", "./rezultati_cell2fire", "./spletna_stran/react/fireLine/public", "brezPregrade.gif")
+    print("Cell2Fire prvic.")
     # stevilo burned cells
     burned_prej = get_burned_value("rezultati_cell2fire/Stats/FinalStats.csv")
 
@@ -112,11 +114,12 @@ def generate(coordinates,selectedDate):
     
     #se enkrat poklic cell2fire
     run_cell2fire("../../FireLine/cop2cell_skripte/results/", "../../FireLine/rezultati_cell2fire/")
+    print("Cell2Fire drugic.")
     # stevilo burned cells
     burned_po_pregradi = get_burned_value("rezultati_cell2fire/Stats/FinalStats.csv")
 
     faktor_izboljsave = burned_po_pregradi / burned_prej
-    print(faktor_izboljsave)
+    print("Faktor izboljsave je izracunan.")
     
     # copies files to site directory to be displayed on a page
     copy_file("pregradaSatelitska.png", "./rezultati_FireLine", "./spletna_stran/react/fireLine/public")

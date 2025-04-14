@@ -12,7 +12,8 @@ def run_cell2fire(
     final_grid=True,
     weather="rows",
     nweathers=1,
-    fire_period_length=1.0,
+    fire_period_length=60.0,
+    weather_period_length=60.0,
     output_messages=True,
     ros_cv=0.0,
     seed=123,
@@ -39,6 +40,7 @@ def run_cell2fire(
         "--weather", weather,
         "--nweathers", str(nweathers),
         "--Fire-Period-Length", str(fire_period_length),
+        "--Weather-Period-Length", str(weather_period_length),
         "--ROS-CV", str(ros_cv),
         "--seed", str(seed),
         "--IgnitionRad", str(ignition_rad),
@@ -56,7 +58,7 @@ def run_cell2fire(
     # ODSTRANI data.csv
     try:
         os.remove("cop2cell_skripte/results/Data.csv")
-        print("Data.csv je izbrisan (se mi zdi).")
+        print("Data.csv je izbrisan.")
     except FileNotFoundError:
         print("Ni Data.csv za izbrisati.")
     

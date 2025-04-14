@@ -10,7 +10,7 @@ FinalGrid: 1
 TotalYears: 1 
 TotalSims: 1 
 NWeatherFiles: 1 
-FirePeriodLength: 1.0 
+FirePeriodLength: 60.0 
 IgnitionRadius: 5 
 ROSThreshold: 0.1 
 HFIThreshold: 0.1 
@@ -21,9 +21,9 @@ Number of cells: 90000
 
 Weather DataFrame from instance ../../FireLine/cop2cell_skripte/results/Weather.csv
 
-Selected ignition point for Year 1, sim 1: 35882
+Selected ignition point for Year 1, sim 1: 58670
 ----------------------------- Results -----------------------------
-Total Available Cells:    75609 - % of the Forest: 84.01%
-Total Burnt Cells:        248 - % of the Forest: 0.275556%
-Total Non-Burnable Cells: 14143 - % of the Forest: 15.7144%
+Total Available Cells:    79486 - % of the Forest: 88.3178%
+Total Burnt Cells:        1482 - % of the Forest: 1.64667%
+Total Non-Burnable Cells: 9032 - % of the Forest: 10.0356%
 Total Harvested Cells: 0 - % of the Forest: 0%
