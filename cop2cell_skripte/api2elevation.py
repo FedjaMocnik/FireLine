@@ -49,7 +49,7 @@ def replace_negatives(mosaic):
 
 def download_geotiff(bbox_left, bbox_right, bbox_bottom, bbox_top, res_m, output_tiff):
 
-    API_KEY = "ak_xGeXLOv2_FDFSWBOEuvmhMZWe"
+    API_KEY = "KLJUC_API_VSTAVI"
     url = "https://api.gpxz.io/v1/elevation/hires-raster"
 
     # aproksimiraj velikost ene stopinje
