@@ -17,7 +17,10 @@ function Uporaba() {
   return (
     <UporabaWrapper>
       <h1>Navodila za uporabo orodja FireLine</h1>
-      <p>neki neki neki</p>
+      <p>1. Na zemljevidu s klikom izberete točko, kjer se je požar začel.</p>
+      <p>2. V koledarju izberete datum začetka požara. Privzeti datum je današnji.</p>
+      <p>3. Zaženete orodje FireLine s klikom na gumb: ZAŽENI FIRELINE.</p>
+      <p>Obdelava podatkov in ustvarjanje rezultatov lahko traja nekaj minut.</p>
     </UporabaWrapper>
   );
 }

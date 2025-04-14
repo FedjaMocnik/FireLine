@@ -31,11 +31,11 @@ def generate_forest_asc(vegetation_path: str, water_path: str, output_path: str,
             water_val = water_array[i, j]
 
             # nastavi vrednost
-            if water_val < 245:
+            if water_val < 200:
                 forest_grid[i, j] = 101  # nastavi stavbe, ceste, reke
-            elif veg_val < 62:
+            elif veg_val < 70:
                 forest_grid[i, j] = 2  # nastavi gozd
-            elif veg_val < 100:
+            elif veg_val < 110:
                 forest_grid[i, j] = 32  # nastavi travo
             else:
                 forest_grid[i, j] = 101 # se ostale stavbe, ceste

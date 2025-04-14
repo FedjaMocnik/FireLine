@@ -17,13 +17,13 @@ HFIThreshold: 0.1
 ROS-CV: 0.0 
 seed: 123 
 Forest DataFrame from instance ../../FireLine/cop2cell_skripte/results/Data.csv
-Number of cells: 90000
+Number of cells: 40000
 
 Weather DataFrame from instance ../../FireLine/cop2cell_skripte/results/Weather.csv
 
-Selected ignition point for Year 1, sim 1: 58670
+Selected ignition point for Year 1, sim 1: 22080
 ----------------------------- Results -----------------------------
-Total Available Cells:    79486 - % of the Forest: 88.3178%
-Total Burnt Cells:        1482 - % of the Forest: 1.64667%
-Total Non-Burnable Cells: 9032 - % of the Forest: 10.0356%
+Total Available Cells:    22453 - % of the Forest: 56.1325%
+Total Burnt Cells:        2369 - % of the Forest: 5.9225%
+Total Non-Burnable Cells: 15178 - % of the Forest: 37.945%
 Total Harvested Cells: 0 - % of the Forest: 0%

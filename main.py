@@ -27,7 +27,7 @@ def generate(coordinates,selectedDate):
     latIgnition = latOfPoint
     lonIgnition = lonOfPoint
 
-    areaSize = 2 #km
+    areaSize = 1 #km
     deltaLon = areaSize / (111.32 * math.cos(math.radians(latOfPoint)))
     deltaLat = areaSize / 111.32
 
@@ -59,7 +59,7 @@ def generate(coordinates,selectedDate):
     # parametri za Forest.asc (treba pravilno nastavit)
     xllcorner = minx
     yllcorner = miny
-    cellsize = 100
+    cellsize = 300
     # naredi Forest.asc iz slik iz satelita in shrani v cop2cell_skripte/results datoteko Forest.asc
     ncols, nrows = generate_forest_asc("coord2img/results/forest.png", "coord2img/results/water.png", "cop2cell_skripte/results/Forest.asc", xllcorner, yllcorner, cellsize)
     print("Forest.asc je generiran. Verzija 0.0.2")
@@ -74,7 +74,7 @@ def generate(coordinates,selectedDate):
     print("Weather.asc je generiran.")
     
     # naredi Ignitions.csv 
-    print(maxy, minx, miny, maxx, latIgnition, lonIgnition, nrows, ncols)
+    # print(maxy, minx, miny, maxx, latIgnition, lonIgnition, nrows, ncols)
     coord2Ign(maxy, minx, miny, maxx, latIgnition, lonIgnition, nrows, ncols)
     print("Ignitions.asc je generiran.")
 
@@ -110,7 +110,7 @@ def generate(coordinates,selectedDate):
 
     # se enkrat generiramo Forest.asc z pregradaVoda.png
     generate_forest_asc("coord2img/results/forest.png", "rezultati_FireLine/pregradaVoda.png", "cop2cell_skripte/results/Forest.asc", xllcorner, yllcorner, cellsize)
-    print("Forest.asc z pregrado je generiran. Verzija 0.0.2")
+    print("Forest.asc s pregrado je generiran. Verzija 0.0.2")
     
     #se enkrat poklic cell2fire
     run_cell2fire("../../FireLine/cop2cell_skripte/results/", "../../FireLine/rezultati_cell2fire/")
