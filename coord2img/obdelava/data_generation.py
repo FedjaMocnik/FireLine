@@ -138,7 +138,7 @@ function evaluatePixel(samples) {
 def get_data():
 
     # Set the Sentinel Hub profile
-    config = SHub_profile("sh-76683b6e-ba7f-46ab-a78b-ab294ec15c4e", "ev5hxyrkAnHdQe89GjzZsTayBcJvfRZA")
+    config = SHub_profile("", "")
 
     # Load the bounding boxes for Slovenia
     if __name__ == "__main__":
